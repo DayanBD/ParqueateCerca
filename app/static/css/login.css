@@ -1,0 +1,350 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   login.css — Estilos base para todas las páginas de autenticación
+   Usado directamente por: login.html
+   Importado por: recuperar.css, registro.css
+   Todas las variables vienen de variables.css
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+body {
+    background-color: var(--clr-surface);
+    color: var(--clr-on-surface);
+    font-family: var(--ff-body);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* z-index para que el contenido quede por encima de fondos decorativos */
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Contenedor del formulario ────────────────────────────────────────────── */
+/* Limita el ancho máximo del formulario centrado */
+.login-wrapper {
+    width: 100%;
+    max-width: 440px;
+}
+
+/* ── Branding ─────────────────────────────────────────────────────────────── */
+/* Título principal de la página (ej: "Inicio de Sesión") */
+.brand-title {
+    font-family: var(--ff-headline);
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: var(--clr-primary);
+    letter-spacing: -.03em;
+    margin-bottom: .4rem;
+}
+
+/* Subtítulo debajo del título principal */
+.brand-sub {
+    color: var(--clr-on-surface-var);
+    font-size: 1rem;
+    letter-spacing: .02em;
+    margin: 0;
+}
+
+/* ── Card de cristal (glass morphism) ────────────────────────────────────── */
+/* Fondo semitransparente con desenfoque para efecto de vidrio */
+.glass-card {
+    background: rgba(0, 41, 62, .4);
+    backdrop-filter: blur(20px);
+    /* desenfoque del fondo */
+    -webkit-backdrop-filter: blur(20px);
+    /* compatibilidad Safari */
+    border: 2px solid var(--clr-primary);
+    border-radius: .75rem;
+    padding: 2rem;
+}
+
+/* ── Campos del formulario ────────────────────────────────────────────────── */
+/* Etiqueta superior de cada campo */
+.field-label {
+    display: block;
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .10em;
+    font-weight: 600;
+    color: var(--clr-on-surface-var);
+    margin-bottom: .3rem;
+}
+
+/* Input base usado en todos los formularios de auth */
+.field-control {
+    width: 100%;
+    background: var(--clr-surface-chh);
+    color: var(--clr-on-surface);
+    border: none;
+    border-radius: .5rem;
+    padding: .9rem 1rem;
+    font-family: var(--ff-body);
+    font-size: .95rem;
+    transition: box-shadow .2s, background .2s;
+    appearance: none;
+    /* elimina estilos nativos del navegador */
+    -webkit-appearance: none;
+    /* compatibilidad Safari */
+}
+
+.field-control::placeholder {
+    color: var(--clr-on-surface-var);
+}
+
+/* Al enfocar muestra borde verde y fondo más claro */
+.field-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 1.5px var(--clr-primary);
+    background: var(--clr-surface-bright);
+}
+
+/* Opciones del select nativo con fondo oscuro */
+select.field-control option {
+    background: var(--clr-surface-chh);
+}
+
+/* ── Select nativo con ícono (no usado actualmente, disponible si se necesita) */
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper .field-control {
+    padding-right: 2.8rem;
+    /* espacio para el ícono */
+    cursor: pointer;
+}
+
+/* Ícono de flecha del select nativo */
+.select-icon {
+    position: absolute;
+    right: .75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--clr-primary);
+    pointer-events: none;
+    /* no interfiere con los clics */
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+/* ── Botones ──────────────────────────────────────────────────────────────── */
+/* Enlace de texto en verde para acciones secundarias (ej: "Olvidé mi contraseña") */
+.forgot-link {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--clr-primary);
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline 2px;
+    color: var(--clr-primary);
+}
+
+/* ── Botón volver ─────────────────────────────────────────────────────────── */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--clr-on-surface-var);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+}
+
+.btn-volver:hover {
+    color: var(--clr-primary);
+}
+
+/* Botón principal verde de ancho completo */
+.btn-login {
+    width: 100%;
+    background-color: var(--clr-primary);
+    color: var(--clr-surface-chh);
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 1rem;
+    border: none;
+    border-radius: .75rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Efecto de escala y brillo al pasar el cursor */
+.btn-login:hover {
+    transform: scale(1.03);
+    filter: brightness(1.05);
+}
+
+.btn-login:active {
+    transform: scale(0.97);
+}
+
+/* ── Footer de la card ────────────────────────────────────────────────────── */
+/* Separador con margen y padding para los links del pie de la card */
+.card-footer-divider {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+/* Texto de sugerencia para registrarse */
+.register-hint {
+    color: var(--clr-on-surface-var);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.register-hint a {
+    color: var(--clr-primary);
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: .25rem;
+}
+
+.register-hint a:hover {
+    text-decoration: underline 2px;
+}
+
+/* ── Selector personalizado (custom select) ───────────────────────────────── */
+/* Reemplaza el select nativo con un desplegable con estilos personalizados */
+/* Usado en: login.html (tipo de perfil) y registro.html (tipo de documento) */
+.custom-select {
+    position: relative;
+    user-select: none;
+    /* evita selección de texto al hacer clic */
+}
+
+/* Cabecera visible del selector (muestra la opción seleccionada) */
+.custom-select__selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--clr-surface-chh);
+    color: var(--clr-on-surface-var);
+    border-radius: .5rem;
+    padding: .9rem 1rem;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+    font-family: var(--ff-body);
+    font-size: .95rem;
+}
+
+.custom-select__selected:hover {
+    background: var(--clr-surface-bright);
+}
+
+/* Cuando el selector está abierto muestra borde verde */
+.custom-select.open .custom-select__selected {
+    box-shadow: 0 0 0 1.5px var(--clr-primary);
+    background: var(--clr-surface-bright);
+    color: var(--clr-on-surface);
+}
+
+/* Flecha que rota 180° al abrir el selector */
+.custom-select__arrow {
+    color: var(--clr-primary);
+    font-size: 1.25rem;
+    transition: transform .25s;
+    line-height: 1;
+}
+
+.custom-select.open .custom-select__arrow {
+    transform: rotate(180deg);
+}
+
+/* Lista de opciones — oculta por defecto, visible cuando está abierta */
+.custom-select__options {
+    list-style: none;
+    margin: .4rem 0 0;
+    padding: .4rem;
+    background: var(--clr-surface-chh);
+    border: 1.5px solid var(--clr-outline-var);
+    border-radius: .5rem;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    /* por encima del resto del contenido */
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    /* no recibe clics cuando está oculto */
+    transition: opacity .2s, transform .2s;
+}
+
+/* Al abrir: visible y posicionado correctamente */
+.custom-select.open .custom-select__options {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+/* Cada opción del selector */
+.custom-select__option {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .75rem 1rem;
+    border-radius: .35rem;
+    cursor: pointer;
+    color: var(--clr-on-surface-var);
+    font-size: .95rem;
+    transition: background .15s, color .15s;
+}
+
+.custom-select__option:hover {
+    background: var(--clr-surface-bright);
+    color: var(--clr-primary);
+}
+
+/* Opción seleccionada resaltada en verde */
+.custom-select__option.selected {
+    color: var(--clr-primary);
+}
+
+.custom-select__option .material-symbols-outlined {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+/* ── Toggle de contraseña ─────────────────────────────────────────────────── */
+/* Contenedor del input con el botón de mostrar/ocultar */
+.input-icon-wrapper {
+    position: relative;
+}
+
+/* Espacio a la derecha para que el texto no quede bajo el botón */
+.input-icon-wrapper .field-control {
+    padding-right: 3rem;
+}
+
+/* Botón del ojo para mostrar/ocultar contraseña */
+.toggle-password {
+    position: absolute;
+    right: .75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--clr-on-surface-var);
+    display: flex;
+    align-items: center;
+    transition: color .2s;
+}
+
+.toggle-password:hover {
+    color: var(--clr-primary);
+}

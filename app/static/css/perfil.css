@@ -1,0 +1,336 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   perfil.css — Estilos del layout principal (navbar + sidebar + contenido)
+   Compartido entre las interfaces de conductor y administrador
+   Estructura: Menú superior fijo + Sidebar colapsable + Contenedor dinámico
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+:root {
+    /* Dimensiones de control para el Layout interactivo */
+    --sidebar-width-collapsed: 80px;
+    --sidebar-width-expanded: 280px;
+    --navbar-height: 64px;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────────── */
+body {
+    background-color: var(--clr-surface);
+    color: var(--clr-on-surface);
+    font-family: var(--ff-body);
+    margin: 0;
+    /* Empuja el contenido hacia abajo para que no quede oculto bajo la navbar */
+    padding-top: var(--navbar-height);
+    overflow-x: hidden;
+}
+
+/* ── Navbar superior ──────────────────────────────────────────────────────── */
+/* Barra de navegación de nivel superior con fijación absoluta en scroll */
+.navbar-custom {
+    background-color: var(--clr-surface);
+    border-bottom: 1px solid var(--clr-outline-var);
+    height: var(--navbar-height);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1100;
+    /* Se posiciona por encima del sidebar (z-index: 1000) */
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+}
+
+/* Logotipo o texto identificativo de la aplicación en la barra superior */
+.navbar-brand-custom {
+    font-family: var(--ff-headline);
+    color: var(--clr-primary);
+    font-weight: 800;
+    font-size: 1.25rem;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.navbar-brand-custom:hover {
+    color: var(--clr-primary);
+}
+
+/* Botones circulares basados en iconos (notificaciones, toggles, etc.) */
+.nav-icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--clr-on-surface-var);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.nav-icon-btn:hover {
+    background-color: var(--clr-surface-bright);
+    color: var(--clr-on-surface);
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+/* Panel de navegación lateral izquierdo colapsado por defecto */
+.sidebar {
+    width: var(--sidebar-width-collapsed);
+    background-color: var(--clr-surface);
+    border-right: 1px solid var(--clr-outline-var);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--navbar-height);
+    /* Comienza exactamente donde termina la navbar */
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    /* Transición fluida controlada por aceleración cúbica al expandir */
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden;
+}
+
+/* Modificador activado por JavaScript para expandir el panel lateral */
+.sidebar.expanded {
+    width: var(--sidebar-width-expanded);
+}
+
+/* ── Cabecera del sidebar (avatar + nombre) ───────────────────────────────── */
+/* Bloque superior de perfil dentro del menú lateral */
+.sidebar-header {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--clr-outline-var);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    /* Centrado óptico del avatar en modo colapsado */
+    white-space: nowrap;
+    transition: padding 0.3s;
+    overflow: hidden;
+}
+
+.sidebar.expanded .sidebar-header {
+    padding-left: 1.5rem;
+}
+
+/* Imagen circular de perfil del usuario activo */
+.sidebar-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--clr-outline-var);
+    flex-shrink: 0;
+    /* Bloquea la compresión del círculo al colapsar */
+    object-fit: cover;
+}
+
+/* Contenedor de datos textuales del usuario (Nombre y Rol) */
+.profile-info {
+    margin-left: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    /* Sincroniza la visualización con el final de la animación del panel */
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.sidebar.expanded .profile-info {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.1s;
+}
+
+.profile-name {
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--clr-primary);
+}
+
+.profile-role {
+    font-size: 0.7rem;
+    color: var(--clr-on-surface-var);
+}
+
+/* ── Navegación del sidebar ───────────────────────────────────────────────── */
+/* Área interna con scroll independiente para albergar los links de la app */
+.sidebar-nav-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 1rem;
+}
+
+/* Segmento inferior del sidebar reservado para opciones de cierre o perfil */
+.sidebar-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--clr-outline-var);
+    padding-bottom: 1rem;
+}
+
+/* Vínculo individual de navegación del panel lateral */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    padding-left: 26px;
+    /* Alineación del icono en modo cerrado */
+    color: var(--clr-on-surface-var);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-weight: 500;
+    transition: all 0.3s;
+    white-space: nowrap;
+    border-left: 4px solid transparent;
+    /* Reserva de espacio para el indicador activo */
+}
+
+.sidebar.expanded .nav-item {
+    padding-left: 1.5rem;
+}
+
+.sidebar .nav-item:hover {
+    background-color: var(--clr-surface-bright);
+    color: var(--clr-primary);
+}
+
+.sidebar .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    padding-left: 26px;
+    color: var(--clr-on-surface-var);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-weight: 500;
+    transition: all 0.3s;
+    white-space: nowrap;
+    border-left: 4px solid transparent;
+}
+
+.sidebar.expanded .nav-item {
+    padding-left: 1.5rem;
+}
+
+.sidebar .nav-item:hover {
+    background-color: var(--clr-surface-bright);
+    color: var(--clr-primary);
+}
+
+.sidebar .nav-item.active {
+    background-color: rgba(145, 247, 142, 0.05);
+    border-left-color: var(--clr-primary);
+    color: var(--clr-primary);
+}
+
+.sidebar .nav-item.nav-logout:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+    color: #ff5252;
+}
+
+.sidebar .nav-item.nav-logout:hover .material-symbols-outlined {
+    color: #ff5252;
+}
+
+/* Indicador visual izquierdo para la página en la que se encuentra el usuario */
+.nav-item.active {
+    background-color: rgba(145, 247, 142, 0.05);
+    border-left-color: var(--clr-primary);
+    color: var(--clr-primary);
+}
+
+/* Estado hover destructivo para cerrar sesión — Limpiado sin usar !important */
+.nav-item.nav-logout:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+    color: #ff5252;
+}
+
+.nav-item.nav-logout:hover .material-symbols-outlined {
+    color: #ff5252;
+}
+
+/* Etiquetas de texto de los enlaces de navegación */
+.nav-text {
+    margin-left: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.sidebar.expanded .nav-text {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.1s;
+}
+
+/* ── Contenido principal ──────────────────────────────────────────────────── */
+/* Área de trabajo central que se desplaza según el estado de la barra lateral */
+.main-content {
+    margin-left: var(--sidebar-width-collapsed);
+    padding: 2.5rem;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+/* Desplazamiento ampliado coordinado con la apertura del menú */
+.main-content.expanded {
+    margin-left: var(--sidebar-width-expanded);
+}
+
+/* ── Cards del contenido ──────────────────────────────────────────────────── */
+/* Contenedor unificado para presentación modular de datos y métricas */
+.custom-card {
+    background-color: #001f2e;
+    border: 2px solid var(--clr-primary);
+    border-radius: 12px;
+}
+
+/* ── Campos del formulario ────────────────────────────────────────────────── */
+/* Modificador local de inputs dentro del entorno del dashboard */
+.field-control {
+    width: 100%;
+    background: var(--clr-surface-bright);
+    color: var(--clr-on-surface);
+    border: none;
+    border-radius: .5rem;
+    padding: .9rem 1rem;
+    font-family: var(--ff-body);
+    font-size: .95rem;
+    transition: box-shadow .2s, background .2s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.swal2-popup .swal2-close.swal-close-custom {
+    color: #e0e0e0;
+    font-size: 2.5rem;
+}
+
+/* ── Botón tipo chip para acciones de navegación con texto (navbar) ──────── */
+.nav-chip-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1px solid var(--clr-outline-var);
+    color: var(--clr-on-surface-var);
+    border-radius: 20px;
+    padding: 0.4rem 0.9rem 0.4rem 0.6rem;
+    font-family: var(--ff-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.nav-chip-btn:hover {
+    background-color: var(--clr-surface-bright);
+    color: var(--clr-primary);
+    border-color: var(--clr-primary);
+}
+
+.nav-chip-btn .material-symbols-outlined {
+    font-size: 1.15rem;
+}

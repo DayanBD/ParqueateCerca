@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cambiar Contraseña - Parquéate Cerca</title>
+
+    <!-- Bootstrap 5.3.8 — Framework CSS para layout y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Fuentes: Manrope para títulos, Inter para cuerpo -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Material Symbols — Ícono de seguridad al pie del formulario -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Estilos de recuperación: importa login.css como base -->
+    <!-- Incluye los estilos de .field-hint, .info-hint y toggle de contraseña -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperar.css') }}">
+</head>
+
+<body>
+
+    <!-- ── Contenedor centrado ──────────────────────────────────────────────────
+         Ocupa toda la altura de la pantalla (min-vh-100) y centra
+         el formulario tanto vertical como horizontalmente.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <main class="d-flex align-items-center justify-content-center min-vh-100 px-3 py-5">
+        <div class="login-wrapper">
+
+            <!-- Título y subtítulo -->
+            <div class="text-center mb-5">
+                <h1 class="brand-title">Nueva contraseña</h1>
+                <p class="brand-sub">Crea una contraseña segura para proteger tu cuenta.</p>
+            </div>
+
+            <!-- ── Card del formulario ──────────────────────────────────────────
+                 Fondo semitransparente con blur (glass morphism).
+                 Contiene los campos de nueva contraseña y confirmación.
+            ─────────────────────────────────────────────────────────────────── -->
+            <div class="glass-card">
+
+                <!-- auth.js escucha el submit de este formulario -->
+                <!-- Se identifica porque tiene id="form-recuperar" -->
+                <form id="form-recuperar">
+
+                    <!-- Nueva contraseña con toggle para mostrar/ocultar -->
+                    <!-- id="new_password" es usado por auth.js para obtener el valor -->
+                    <div class="mb-4">
+                        <label class="field-label" for="new_password">Nueva contraseña</label>
+                        <div class="input-icon-wrapper">
+                            <input class="field-control" id="new_password" type="password"
+                                placeholder="Mínimo 8 caracteres" />
+                            <button type="button" class="toggle-password">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                        </div>
+                        <!-- Indicaciones de formato de contraseña -->
+                        <p class="field-hint">Mínimo 8 caracteres, al menos una mayúscula y un carácter especial.</p>
+                    </div>
+
+                    <!-- Confirmar contraseña con toggle para mostrar/ocultar -->
+                    <!-- id="confirm_password" es usado por auth.js para verificar que coincida -->
+                    <div class="mb-4">
+                        <label class="field-label" for="confirm_password">Confirmar contraseña</label>
+                        <div class="input-icon-wrapper">
+                            <input class="field-control" id="confirm_password" type="password"
+                                placeholder="Repite tu contraseña" />
+                            <button type="button" class="toggle-password">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <!-- type="submit" para que auth.js capture el evento submit -->
+                    <div class="mt-4 pt-2">
+                        <button type="submit" class="btn-login">Cambiar contraseña</button>
+                    </div>
+
+                </form>
+
+                <!-- Enlace para volver al login -->
+                <div class="card-footer-divider">
+                    <a class="forgot-link" href="/login">Volver a iniciar sesión</a>
+                </div>
+
+            </div>
+
+            <!-- Nota de seguridad sobre cifrado -->
+            <p class="info-hint mt-4">
+                <span class="material-symbols-outlined">verified_user</span>
+                Cifrado de grado bancario — Tu información está protegida.
+            </p>
+
+        </div>
+    </main>
+
+    <!-- SweetAlert2 — alertas estilizadas para errores y confirmaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap JS — necesario para componentes interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- auth.js maneja: toggle de contraseña y envío del formulario a /api/nueva-contrasena -->
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+</body>
+
+</html>

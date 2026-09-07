@@ -1,0 +1,590 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   mapa.css — Estilos exclusivos del módulo del mapa interactivo
+   El layout base (navbar, sidebar, main-content) lo provee perfil.css
+   RF_17: Alerta de ubicación | RF_18: Mapa y card de preview
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+/* ── Contenedor principal ─────────────────────────────────────────────────── */
+/* Elimina el padding del main-content para que el mapa ocupe todo el área */
+.main-content {
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ── Mapa (RF_18) ─────────────────────────────────────────────────────────── */
+#map {
+    width: 100%;
+    height: calc(100vh - var(--navbar-height));
+}
+
+/* Oculta la atribución de Leaflet para mantener la UI limpia */
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+/* ── Alerta de ubicación desactivada (RF_17) ──────────────────────────────── */
+/* Posicionada sobre el mapa, en la parte superior del área visible */
+.alerta-ubicacion {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: #001f2e;
+    border: 2px solid #ffb74d;
+    border-radius: 10px;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: var(--clr-on-surface);
+    font-family: var(--ff-body);
+    font-size: 0.88rem;
+    max-width: 480px;
+    width: calc(100% - 2rem);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.alerta-ubicacion .material-symbols-outlined {
+    color: #ffb74d;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.alerta-ubicacion strong {
+    display: block;
+    color: #ffb74d;
+    margin-bottom: 0.1rem;
+}
+
+/* Botón de reintentar dentro de la alerta */
+#btnReintentar {
+    margin-left: auto;
+    background-color: transparent;
+    border: 2px solid #ffb74d;
+    color: #ffb74d;
+    border-radius: 6px;
+    padding: 0.35rem 0.85rem;
+    font-family: var(--ff-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+
+#btnReintentar:hover {
+    background-color: #ffb74d;
+    color: #00101b;
+}
+
+/* ── Punto de ubicación del usuario (estilo Google Maps) ──────────────────── */
+.user-location-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--clr-primary);
+    border: 3px solid var(--clr-surface-chh);
+    position: relative;
+}
+
+.user-location-dot::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    background-color: rgba(0, 255, 42, 0.489);
+    animation: pulso-azul 2s infinite;
+    z-index: -1;
+}
+
+@keyframes pulso-azul {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* ── Card de preview del parqueadero (RF_18) ──────────────────────────────── */
+/* Flotante en la parte inferior del área del mapa */
+.parking-preview {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: #001f2e;
+    border: 1.5px solid var(--clr-outline-var);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    width: calc(100% - 2rem);
+    max-width: 420px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    font-family: var(--ff-body);
+}
+
+/* Botón de cierre de la card */
+.preview-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--clr-on-surface-var);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.preview-close:hover {
+    color: var(--clr-on-surface);
+}
+
+.preview-close .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+/* Fila superior: ícono + nombre + meta */
+.preview-body {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-right: 1.5rem;
+}
+
+/* Ícono del parqueadero */
+.preview-icono {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background-color: rgba(145, 247, 142, 0.08);
+    color: var(--clr-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.preview-icono .material-symbols-outlined {
+    font-size: 1.6rem;
+}
+
+/* Bloque de texto */
+.preview-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.preview-nombre {
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--clr-on-surface);
+    margin: 0 0 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.preview-meta {
+    font-size: 0.8rem;
+    color: var(--clr-on-surface-var);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.preview-separador {
+    opacity: 0.5;
+}
+
+/* Cupos disponibles en verde cuando hay disponibilidad */
+#previewCupos.disponible {
+    color: var(--clr-primary);
+    font-weight: 600;
+}
+
+/* Cupos en rojo cuando está lleno */
+#previewCupos.lleno {
+    color: #ff5252;
+    font-weight: 600;
+}
+
+.btn-ver-detalles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex: 1;
+    background-color: var(--clr-primary);
+    color: #00101b;
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 0.92rem;
+    border-radius: 8px;
+    padding: 0.65rem;
+    text-decoration: none;
+    transition: filter 0.2s, transform 0.2s;
+}
+
+.btn-ver-detalles:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    color: #00101b;
+}
+
+.btn-ver-detalles .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+/* ── Marcadores del mapa ───────────────────────────────────────────────────── */
+/* Contenedor del marcador personalizado de Leaflet (pin con punta) */
+.marcador-parqueadero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.marcador-parqueadero:hover {
+    transform: scale(1.1);
+}
+
+/* Burbuja circular con el ícono */
+.marcador-burbuja {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background-color: #001f2e;
+    border: 2px solid var(--clr-primary);
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s;
+}
+
+.marcador-burbuja .material-symbols-outlined {
+    font-size: 1.2rem;
+    color: var(--clr-primary);
+    transition: color 0.2s;
+}
+
+.marcador-parqueadero:hover .marcador-burbuja {
+    background-color: var(--clr-primary);
+}
+
+.marcador-parqueadero:hover .marcador-burbuja .material-symbols-outlined {
+    color: #00101b;
+}
+
+/* Punta triangular que señala la coordenada exacta */
+.marcador-pico {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--clr-primary);
+    margin-top: -1px;
+}
+
+/* Marcador en rojo cuando el parqueadero está lleno */
+.marcador-parqueadero.lleno .marcador-burbuja {
+    border-color: #ff5252;
+}
+
+.marcador-parqueadero.lleno .marcador-burbuja .material-symbols-outlined {
+    color: #ff5252;
+}
+
+.marcador-parqueadero.lleno .marcador-pico {
+    border-top-color: #ff5252;
+}
+
+.marcador-parqueadero.lleno:hover .marcador-burbuja {
+    background-color: #ff5252;
+}
+
+.marcador-parqueadero.lleno:hover .marcador-burbuja .material-symbols-outlined {
+    color: white;
+}
+
+/* ── Botón flotante: centrar en mi ubicación ──────────────────────────────── */
+.btn-centrar-ubicacion {
+    position: absolute;
+    bottom: 90px;
+    right: 10px;
+    z-index: 900;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #001f2e;
+    border: 2px solid var(--clr-primary);
+    color: var(--clr-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.btn-centrar-ubicacion:hover {
+    background-color: var(--clr-primary);
+    color: #00101b;
+    transform: scale(1.05);
+}
+
+.btn-centrar-ubicacion .material-symbols-outlined {
+    font-size: 1.4rem;
+}
+
+/* Gira el ícono mientras se espera la respuesta del GPS */
+.btn-centrar-ubicacion.buscando .material-symbols-outlined {
+    animation: girar-ubicacion 1s linear infinite;
+}
+
+@keyframes girar-ubicacion {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Buscador de parqueaderos ─────────────────────────────────────────────── */
+.buscador-mapa {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 950;
+    width: min(340px, calc(100% - 2rem));
+}
+
+.buscador-input {
+    width: 100%;
+    background-color: #001f2e;
+    border: 1.5px solid var(--clr-outline-var);
+    border-radius: 10px;
+    padding: 0.65rem 2.4rem 0.65rem 2.6rem;
+    color: var(--clr-on-surface);
+    font-family: var(--ff-body);
+    font-size: 0.88rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: border-color 0.2s;
+}
+
+.buscador-input:focus {
+    outline: none;
+    border-color: var(--clr-primary);
+}
+
+.buscador-input::placeholder {
+    color: var(--clr-on-surface-var);
+}
+
+.buscador-icono {
+    position: absolute;
+    left: 0.85rem;
+    top: 0.7rem;
+    color: var(--clr-on-surface-var);
+    font-size: 1.3rem;
+    pointer-events: none;
+}
+
+.buscador-limpiar {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--clr-on-surface-var);
+    cursor: pointer;
+    padding: 0.3rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.buscador-limpiar:hover {
+    color: var(--clr-on-surface);
+}
+
+.buscador-limpiar .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+.buscador-resultados {
+    margin-top: 0.5rem;
+    background-color: #001f2e;
+    border: 1.5px solid var(--clr-outline-var);
+    border-radius: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.resultado-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem 0.9rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--clr-outline-var);
+    transition: background-color 0.2s;
+}
+
+.resultado-item:last-child {
+    border-bottom: none;
+}
+
+.resultado-item:hover {
+    background-color: var(--clr-surface-bright);
+}
+
+.resultado-item .material-symbols-outlined {
+    color: var(--clr-primary);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.resultado-item-texto {
+    min-width: 0;
+}
+
+.resultado-item-nombre {
+    font-weight: 600;
+    color: var(--clr-on-surface);
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resultado-item-direccion {
+    font-size: 0.76rem;
+    color: var(--clr-on-surface-var);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.buscador-sin-resultados {
+    padding: 0.9rem;
+    text-align: center;
+    color: var(--clr-on-surface-var);
+    font-size: 0.85rem;
+}
+
+/* ── Fila de acciones de la card de preview (Cómo llegar / Ver detalles) ──── */
+.preview-acciones {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.btn-como-llegar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex: 1;
+    background-color: transparent;
+    border: 1.5px solid var(--clr-primary);
+    color: var(--clr-primary);
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 0.92rem;
+    border-radius: 8px;
+    padding: 0.65rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-como-llegar:hover {
+    background-color: rgba(145, 247, 142, 0.1);
+    transform: translateY(-1px);
+}
+
+.btn-como-llegar .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+/* ── Botón flotante: quitar ruta activa ────────────────────────────────────── */
+.btn-quitar-ruta {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 950;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #001f2e;
+    border: 1.5px solid #ff5252;
+    color: #ff5252;
+    border-radius: 10px;
+    padding: 0.55rem 0.9rem;
+    font-family: var(--ff-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-quitar-ruta:hover {
+    background-color: #ff5252;
+    color: #00101b;
+}
+
+.btn-quitar-ruta .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+/* ── Panel de Leaflet Routing Machine (tema oscuro del proyecto) ──────────── */
+.leaflet-routing-container {
+    background-color: #001f2e !important;
+    color: var(--clr-on-surface) !important;
+    border: 1.5px solid var(--clr-outline-var) !important;
+    border-radius: 10px !important;
+    font-family: var(--ff-body) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    max-width: 300px;
+    max-height: 45vh;
+    overflow-y: auto;
+}
+
+.leaflet-routing-container h2,
+.leaflet-routing-container h3 {
+    color: var(--clr-on-surface) !important;
+    font-family: var(--ff-headline) !important;
+}
+
+.leaflet-routing-alt table {
+    color: var(--clr-on-surface-var) !important;
+}
+
+.leaflet-routing-alt tr:hover {
+    background-color: var(--clr-surface-bright) !important;
+}
+
+.leaflet-routing-icon {
+    filter: invert(1);
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - Parquéate Cerca</title>
+
+    <!-- Bootstrap 5.3.8 — Framework CSS para layout y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Fuentes: Manrope para títulos, Inter para cuerpo -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Material Symbols — Iconos para el selector de perfil y toggle de contraseña -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Estilos del login: variables, campos, botones y selectores personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+
+    <!-- ── Contenedor centrado ──────────────────────────────────────────────────
+         Ocupa toda la altura de la pantalla (min-vh-100) y centra
+         el formulario tanto vertical como horizontalmente.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <main class="d-flex align-items-center justify-content-center min-vh-100 px-3 py-5">
+        <div class="login-wrapper">
+
+            <!-- Título y subtítulo -->
+            <div class="text-center mb-5">
+                <h1 class="brand-title">Inicio de Sesión</h1>
+                <p class="brand-sub">Inicia sesión con tu cuenta de Parquéate Cerca.</p>
+            </div>
+
+            <!-- ── Card del formulario ──────────────────────────────────────────
+                 Fondo semitransparente con blur (glass morphism).
+                 Contiene el formulario de login y los enlaces del footer.
+            ─────────────────────────────────────────────────────────────────── -->
+            <div class="glass-card">
+                <form>
+
+                    <!-- Enlace para volver al index -->
+                    <a href="/" class="btn-volver">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Volver al inicio
+                    </a>
+
+                    <!-- Selector personalizado de tipo de perfil -->
+                    <!-- El valor seleccionado se guarda en el input oculto #profileType -->
+                    <!-- auth.js maneja la apertura, selección y cierre del desplegable -->
+                    <div class="mb-4">
+                        <label class="field-label">Tipo de perfil</label>
+                        <div class="custom-select" id="profileSelect">
+                            <div class="custom-select__selected" id="profileSelected">
+                                <span id="profileText">Seleccionar perfil</span>
+                                <span class="material-symbols-outlined custom-select__arrow"
+                                    id="profileArrow">expand_more</span>
+                            </div>
+                            <ul class="custom-select__options" id="profileOptions">
+                                <!-- data-value se envía al backend para identificar el perfil -->
+                                <li class="custom-select__option" data-value="driver">Conductor</li>
+                                <li class="custom-select__option" data-value="owner">Administrador de parqueadero</li>
+                            </ul>
+                        </div>
+                        <!-- Input oculto que guarda el valor del perfil seleccionado -->
+                        <input type="hidden" id="profileType" name="profileType" />
+                    </div>
+
+                    <!-- Correo electrónico -->
+                    <!-- id="email" es usado por auth.js para identificar este formulario como login -->
+                    <div class="mb-4">
+                        <label class="field-label" for="email">Correo electrónico</label>
+                        <input class="field-control" id="email" type="email" placeholder="usuario@dominio.com" />
+                    </div>
+
+                    <!-- Contraseña con toggle para mostrar/ocultar -->
+                    <!-- auth.js maneja el toggle con la clase .toggle-password -->
+                    <!-- id="password" junto con id="email" identifica este form como login en auth.js -->
+                    <div class="mb-4">
+                        <label class="field-label mb-0" for="password">Contraseña</label>
+                        <div class="input-icon-wrapper">
+                            <input class="field-control" id="password" type="password"
+                                placeholder="Ingresa tu contraseña" />
+                            <button type="button" class="toggle-password">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Botón de envío del formulario -->
+                    <div class="mt-4 pt-2">
+                        <button type="submit" class="btn-login">Iniciar sesión</button>
+                    </div>
+
+                </form>
+
+                <!-- ── Footer de la card ──────────────────────────────────────── -->
+
+                <!-- Enlace a recuperación de contraseña -->
+                <div class="card-footer-divider">
+                    <a class="forgot-link" href="/recuperar">Olvidé mi contraseña</a>
+                </div>
+
+                <!-- Enlace al registro para usuarios nuevos -->
+                <div class="card-footer-divider">
+                    <p class="register-hint">
+                        ¿No tienes una cuenta?
+                        <a href="/registro">Regístrate</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- SweetAlert2 — alertas estilizadas para errores y confirmaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap JS — necesario para componentes interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- auth.js maneja: selector de perfil, toggle de contraseña y envío del formulario -->
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   registrar_parqueadero.css — Estilos exclusivos del formulario de registro
+   de parqueadero. La base visual la provee registro.css (importado en el HTML).
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+/* ── Hint de campo ────────────────────────────────────────────────────────── */
+.field-hint {
+    font-size: 0.75rem;
+    color: var(--clr-on-surface-var);
+    margin-top: 0.4rem;
+    margin-left: 0.25rem;
+    margin-bottom: 0;
+}
+
+/* ── Aviso de ubicación ───────────────────────────────────────────────────── */
+.ubicacion-aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background-color: rgba(145, 247, 142, 0.05);
+    border: 1px solid rgba(145, 247, 142, 0.2);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--clr-on-surface-var);
+    line-height: 1.5;
+}
+
+.ubicacion-aviso .material-symbols-outlined {
+    color: var(--clr-primary);
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.ubicacion-aviso strong {
+    color: var(--clr-on-surface);
+}
+
+/* ── Botón capturar ubicación ─────────────────────────────────────────────── */
+.btn-ubicacion {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    border: 1.5px solid var(--clr-primary);
+    color: var(--clr-primary);
+    font-family: var(--ff-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    padding: 0.65rem 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    margin-bottom: 1rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-ubicacion:hover {
+    background-color: rgba(145, 247, 142, 0.1);
+}
+
+.btn-ubicacion:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-ubicacion .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+/* ── Mapa embebido ────────────────────────────────────────────────────────── */
+.mapa-registro {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid var(--clr-outline-var);
+}
+
+#mapRegistro {
+    height: 260px;
+    width: 100%;
+}
+
+/* ── Botón volver ─────────────────────────────────────────────────────────── */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--clr-on-surface-var);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+}
+
+.btn-volver:hover {
+    color: var(--clr-primary);
+}

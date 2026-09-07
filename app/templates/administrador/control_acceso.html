@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ingresos y Salidas - Parquéate Cerca</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/control_acceso.css') }}">
+</head>
+
+<body>
+
+    <header class="navbar-custom">
+        <div class="d-flex align-items-center flex-grow-1 gap-3">
+            <button class="nav-icon-btn" id="toggleSidebar" title="Menú de navegación">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <a href="/" class="navbar-brand-custom">Parquéate Cerca</a>
+        </div>
+
+        <button type="button" class="nav-chip-btn" id="btnVolverConductor" title="Volver a modo conductor">
+            <span class="material-symbols-outlined">directions_car</span>
+            <span>Modo Conductor</span>
+        </button>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+
+        <!-- Avatar del conductor que registró el parqueadero (RF_05) -->
+        <div class="sidebar-header">
+            <img src="" alt="Avatar" class="sidebar-avatar" id="sidebarAvatar" />
+            <div class="profile-info">
+                <div class="profile-name" id="sidebarName">Cargando...</div>
+                <div class="profile-role">Administrador</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav-container">
+            <a href="/administrador/movimientos" class="nav-item">
+                <span class="material-symbols-outlined">monitoring</span>
+                <span class="nav-text">Movimientos e Historial</span>
+            </a>
+            <a href="/administrador/control-acceso" class="nav-item active">
+                <span class="material-symbols-outlined">toll</span>
+                <span class="nav-text">Ingresos y Salidas</span>
+            </a>
+        </nav>
+
+        <!-- "Mi Perfil" aquí corresponde al perfil del PARQUEADERO, no al del conductor -->
+        <div class="sidebar-footer">
+            <a href="/administrador/perfil" class="nav-item">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="nav-text">Mi Perfil</span>
+            </a>
+            <a href="#" class="nav-item nav-logout" id="btnLogout">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="nav-text">Cerrar Sesión</span>
+            </a>
+        </div>
+
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <div class="w-100 d-flex flex-column align-items-center">
+
+            <div class="w-100 mb-4" style="max-width: 650px;">
+                <h4 class="fw-semibold mb-1" style="font-family: var(--ff-headline)">
+                    <span class="material-symbols-outlined align-middle me-2">toll</span>Control de Barrera
+                </h4>
+                <p style="color: var(--clr-on-surface-var)">
+                    Ingresa una placa para registrar entrada, o un código de ticket para procesar salida.
+                </p>
+            </div>
+
+            <div class="custom-card mb-4 text-center">
+                <div class="mb-4">
+                    <input type="text" id="inputBusqueda" class="smart-input w-100" placeholder="PLACA O CÓDIGO"
+                        maxlength="6" autocomplete="off">
+                </div>
+                <div class="d-flex justify-content-center gap-3">
+                    <button type="button" id="btnBuscar" class="btn-login"
+                        style="width: auto; max-width: 300px; padding: 0.9rem 2rem;">
+                        <span class="material-symbols-outlined me-2">search</span> Procesar
+                    </button>
+                    <button type="button" id="btnLimpiar" class="btn-limpiar d-none">
+                        Limpiar
+                    </button>
+                </div>
+
+                <!-- Caso especial RF_15: salida sin código de referencia, -->
+                <!-- busca el movimiento activo del vehículo directamente por placa -->
+                <p class="text-center mt-3 mb-0">
+                    <a href="#" class="forgot-link" id="btnSalidaPorPlaca">
+                        ¿No tiene el código? Procesar salida por placa
+                    </a>
+                </p>
+            </div>
+
+            <div id="dynamicContainer" style="width: 100%; max-width: 650px;">
+
+                <!-- Vista: vehículo vinculado a un conductor de la app -->
+                <div id="viewIngresoApp" class="custom-card estado-exito d-none mb-4">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3 estado-header-border">
+                        <span class="material-symbols-outlined icono-exito">check_circle</span>
+                        <div>
+                            <h4 class="m-0 fw-bold texto-exito">Usuario Verificado</h4>
+                            <p class="m-0" style="color: var(--clr-on-surface-var)" id="appNombreUsuario">Cargando
+                                nombre...</p>
+                        </div>
+                    </div>
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <label class="field-label">Placa registrada</label>
+                            <input type="text" id="appPlaca" class="field-control fw-bold" readonly>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="field-label">Tipo de vehículo</label>
+                            <input type="text" id="appTipoVehiculo" class="field-control" readonly>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="field-label">Teléfono</label>
+                            <input type="text" id="appTelefono" class="field-control" readonly>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="field-label">Correo</label>
+                            <input type="text" id="appCorreo" class="field-control" readonly>
+                        </div>
+                    </div>
+                    <p class="mb-3" style="color: var(--clr-on-surface-var); font-size: 0.85rem;">
+                        <span class="material-symbols-outlined align-middle" style="font-size: 1rem;">sms</span>
+                        El código de salida se enviará por correo al conductor.
+                    </p>
+                    <button type="button" id="btnConfirmarIngresoApp" class="btn-login">
+                        <span class="material-symbols-outlined me-2">login</span> Dar ingreso y generar ticket
+                    </button>
+                </div>
+
+                <!-- Vista: vehículo no vinculado a la app, registro manual -->
+                <div id="viewIngresoManual" class="custom-card estado-info d-none mb-4">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3 estado-header-border">
+                        <span class="material-symbols-outlined icono-info">person_add</span>
+                        <div>
+                            <h4 class="m-0 fw-bold texto-info">Registro manual</h4>
+                            <p class="m-0" style="color: var(--clr-on-surface-var)">Vehículo de la calle, no vinculado a
+                                la app</p>
+                        </div>
+                    </div>
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <label class="field-label">Placa ingresada</label>
+                            <input type="text" id="manualPlaca" class="field-control fw-bold text-uppercase" readonly>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="field-label">Tipo de vehículo</label>
+                            <select id="manualSelectTipo" class="field-control">
+                                <option value="1">Automóvil</option>
+                                <option value="2">Motocicleta</option>
+                                <option value="3">Bicicleta</option>
+                                <option value="4">Camión</option>
+                                <option value="5">Bus</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="field-label">Nombre del propietario</label>
+                        <input type="text" id="manualPropietario" class="field-control" maxlength="150"
+                            placeholder="Nombre completo">
+                    </div>
+                    <div class="mb-4">
+                        <label class="field-label">Teléfono de contacto</label>
+                        <input type="tel" id="manualTelefono" class="field-control" maxlength="10"
+                            placeholder="3001234567">
+                    </div>
+                    <div class="mb-4">
+                        <label class="field-label">Correo electrónico (Aquí se enviará el código de salida)</label>
+                        <input type="email" id="manualCorreo" class="field-control" maxlength="150"
+                            placeholder="conductor@correo.com">
+                    </div>
+                    <button type="button" id="btnConfirmarIngresoManual" class="btn-info-custom">
+                        <span class="material-symbols-outlined me-2">post_add</span> Dar ingreso y generar ticket
+                    </button>
+                </div>
+
+                <!-- Vista: procesar salida de un vehículo ya registrado -->
+                <div id="viewSalida" class="custom-card estado-peligro d-none mb-4">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3 estado-header-border">
+                        <span class="material-symbols-outlined icono-peligro">logout</span>
+                        <div>
+                            <h4 class="m-0 fw-bold texto-peligro">Procesar salida</h4>
+                            <p class="m-0" style="color: var(--clr-on-surface-var)" id="salidaTipoCliente">Ticket
+                                encontrado</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4 p-3 rounded caja-placa-salida">
+                        <label class="field-label">Placa del vehículo</label>
+                        <h2 class="fw-bold m-0 text-uppercase" style="color: var(--clr-on-surface)" id="salidaPlaca">...
+                        </h2>
+                    </div>
+
+                    <div class="row text-center mb-4">
+                        <div class="col-6 col-divider">
+                            <label class="field-label">Hora de ingreso</label>
+                            <span class="fs-5" style="color: var(--clr-on-surface)" id="salidaHoraIngreso">--:--</span>
+                        </div>
+                        <div class="col-6">
+                            <label class="field-label">Tiempo transcurrido</label>
+                            <span class="fs-5 fw-bold texto-advertencia" id="salidaTiempo">-- h -- m</span>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnConfirmarSalida" class="btn-peligro-custom">
+                        <span class="material-symbols-outlined me-2">sensor_door</span> Confirmar salida (liberar cupo)
+                    </button>
+                </div>
+
+                <!-- Vista: confirmación final con el código a entregar -->
+                <div id="viewExitoCodigo" class="custom-card text-center estado-exito d-none mb-4">
+                    <span class="material-symbols-outlined icono-exito" style="font-size: 5rem;">task_alt</span>
+                    <h3 class="fw-bold mb-1" style="color: var(--clr-on-surface)">¡Vehículo registrado!</h3>
+                    <p class="mb-3" style="color: var(--clr-on-surface-var)" id="txtInstruccionCodigo">
+                        Entrega este código al conductor para su salida:
+                    </p>
+
+                    <div class="code-display" id="txtCodigoGenerado">XXXX</div>
+
+                    <button type="button" id="btnVolverInicio" class="btn-login mt-4">
+                        <span class="material-symbols-outlined me-2">refresh</span> Listo / Siguiente vehículo
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/control_acceso.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Parqueadero - Parquéate Cerca</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_parqueadero.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+
+<body>
+
+    <div class="container-fluid p-0">
+        <div class="row g-0 min-vh-100">
+
+            <!-- ── Sidebar decorativo ──────────────────────────────────────── -->
+            <div class="col-lg-5 d-none d-lg-flex sidebar">
+                <div class="sidebar-content">
+
+                    <div>
+                        <p class="sidebar-brand">Parquéate Cerca</p>
+                        <p class="sidebar-tagline">
+                            Registra tu parqueadero y empieza a gestionar
+                            tus espacios desde un solo lugar.
+                        </p>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="glass-card-icon">
+                            <span class="material-symbols-outlined">add_business</span>
+                        </div>
+                        <div>
+                            <div class="glass-card-label">Paso 1 de 1</div>
+                            <div class="glass-card-value">Datos del parqueadero</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="glass-card-icon">
+                            <span class="material-symbols-outlined">info</span>
+                        </div>
+                        <div>
+                            <div class="glass-card-label">Nota</div>
+                            <div class="glass-card-value">
+                                Podrás configurar horarios, servicios y cupos
+                                desde tu panel de administrador.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ── Panel del formulario ────────────────────────────────────── -->
+            <div class="col-12 col-lg-7 form-pane">
+                <div class="form-pane-inner">
+
+                    <a href="/conductor/mapa" class="btn-volver">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Volver al mapa
+                    </a>
+
+                    <div class="d-lg-none text-center mb-5">
+                        <span class="mobile-logo">Parquéate Cerca</span>
+                    </div>
+
+                    <div class="mb-5 text-center text-lg-start">
+                        <h2 class="section-title">Registra tu parqueadero</h2>
+                        <p class="section-sub">
+                            Completa los datos de tu establecimiento para activarlo
+                            en la plataforma.
+                        </p>
+                    </div>
+
+                    <form id="formRegistrarParqueadero">
+                        <div class="row g-4">
+
+                            <!-- ── Columna izquierda ─────────────────────── -->
+                            <div class="col-12 col-md-6">
+
+                                <div class="mb-4">
+                                    <label class="field-label" for="inputNit">
+                                        NIT del establecimiento
+                                    </label>
+                                    <input class="field-control" type="text" id="inputNit" placeholder="Solo números"
+                                        maxlength="20" />
+                                    <p class="field-hint">Opcional. Déjalo vacío si no aplica.</p>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="field-label" for="inputNombre">
+                                        Nombre del parqueadero
+                                    </label>
+                                    <input class="field-control" type="text" id="inputNombre"
+                                        placeholder="Nombre del establecimiento" maxlength="150" />
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="field-label" for="inputDireccion">
+                                        Dirección
+                                    </label>
+                                    <input class="field-control" type="text" id="inputDireccion"
+                                        placeholder="Dirección del establecimiento" maxlength="255" />
+                                </div>
+
+                            </div>
+
+                            <!-- ── Columna derecha ───────────────────────── -->
+                            <div class="col-12 col-md-6">
+
+                                <div class="mb-4">
+                                    <label class="field-label" for="inputTelefono">
+                                        Teléfono
+                                    </label>
+                                    <input class="field-control" type="text" id="inputTelefono"
+                                        placeholder="Solo números" maxlength="10" />
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="field-label" for="inputCapacidad">
+                                        Capacidad total
+                                    </label>
+                                    <input class="field-control" type="number" id="inputCapacidad"
+                                        placeholder="Solo números" min="1" />
+                                    <p class="field-hint">
+                                        Número total de espacios del parqueadero.
+                                    </p>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="field-label" for="inputCorreo">
+                                        Correo electrónico
+                                    </label>
+                                    <input class="field-control" type="email" id="inputCorreo"
+                                        placeholder="empresa@dominio.com" maxlength="150" />
+                                </div>
+
+                            </div>
+
+                            <!-- ── Sección de ubicación (ancho completo) ─── -->
+                            <div class="col-12">
+
+                                <label class="field-label">Ubicación del parqueadero</label>
+
+                                <div class="ubicacion-aviso">
+                                    <span class="material-symbols-outlined">location_on</span>
+                                    <p>
+                                        Para registrar la ubicación correctamente,
+                                        <strong>debes estar físicamente en el parqueadero</strong>
+                                        al momento de capturar la ubicación. Haz clic en el botón,
+                                        acepta el permiso de ubicación y ajusta el marcador si es necesario.
+                                    </p>
+                                </div>
+
+                                <button type="button" class="btn-ubicacion" id="btnCapturarUbicacion">
+                                    <span class="material-symbols-outlined">my_location</span>
+                                    Usar mi ubicación actual
+                                </button>
+
+                                <div id="contenedorMapa" class="mapa-registro d-none">
+                                    <div id="mapRegistro"></div>
+                                    <p class="field-hint mt-2">
+                                        Arrastra el marcador para ajustar la posición exacta.
+                                    </p>
+                                </div>
+
+                                <!-- Campos ocultos que almacenan las coordenadas capturadas -->
+                                <input type="hidden" id="inputLatitud" />
+                                <input type="hidden" id="inputLongitud" />
+
+                            </div>
+
+                        </div>
+
+                        <!-- ── Botón y enlace ────────────────────────── -->
+                        <div class="col-12 mt-2">
+                            <button type="submit" class="btn-login" id="btnRegistrarParqueadero">
+                                Registrar parqueadero
+                            </button>
+                        </div>
+
+                </div>
+                </form>
+
+                <footer class="form-footer justify-content-center">
+                    <span>© 2026 Parquéate Cerca. Todos los derechos reservados.</span>
+                </footer>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="{{ url_for('static', filename='js/registrar_parqueadero.js') }}"></script>
+
+</body>
+
+</html>

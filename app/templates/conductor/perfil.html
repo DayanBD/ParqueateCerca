@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Perfil - Parquéate Cerca</title>
+
+    <!-- Bootstrap 5.3.8 — Framework CSS para la estructura del panel -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Fuentes: Manrope para títulos, Inter para el cuerpo de texto -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Material Symbols — Iconografía para navegación y notificaciones -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Estilos compartidos del panel de control de usuario -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+</head>
+
+<body>
+
+    <!-- ── Navbar superior ───────────────────────────────────────────────────
+         Barra de herramientas fija superior. Controla la expansión del menú 
+         y las notificaciones en tiempo real del conductor.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <header class="navbar-custom">
+        <div class="d-flex align-items-center flex-grow-1 gap-3">
+            <!-- Botón para expandir/colapsar el sidebar — Escuchado por dashboard.js -->
+            <button class="nav-icon-btn" id="toggleSidebar" title="Menú de navegación">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <a href="/" class="navbar-brand-custom">Parquéate Cerca</a>
+        </div>
+
+        <button type="button" class="nav-chip-btn" id="btnRegistrarParqueadero" title="Registrar mi parqueadero">
+            <span class="material-symbols-outlined">add_business</span>
+            <span id="txtBotonParqueadero">Registrar parqueadero</span>
+        </button>
+    </header>
+
+    <!-- ── Sidebar ───────────────────────────────────────────────────────────
+         Panel de navegación lateral colapsable. Muestra información reducida 
+         del perfil y los accesos a los módulos del conductor.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- Avatar y nombre del usuario (Datos asíncronos desde JS) -->
+        <div class="sidebar-header">
+            <img src="" alt="Avatar" class="sidebar-avatar" id="sidebarAvatar" />
+            <div class="profile-info">
+                <div class="profile-name" id="sidebarName">Cargando...</div>
+                <div class="profile-role">Conductor</div>
+            </div>
+        </div>
+
+        <!-- Ítems de navegación principal -->
+        <nav class="sidebar-nav-container">
+            <a href="/conductor/mapa" class="nav-item">
+                <span class="material-symbols-outlined">map</span>
+                <span class="nav-text">Mapa</span>
+            </a>
+            <a href="/conductor/vehiculos" class="nav-item">
+                <span class="material-symbols-outlined">directions_car</span>
+                <span class="nav-text">Mis Vehículos</span>
+            </a>
+            <a href="" class="nav-item" id="btnCambiarContrasena">
+                <span class="material-symbols-outlined">lock_reset</span>
+                <span class="nav-text">Cambiar Contraseña</span>
+            </a>
+        </nav>
+
+        <!-- Footer del sidebar — Contiene la página activa actual (Mi Perfil) -->
+        <div class="sidebar-footer">
+            <a href="/conductor/perfil" class="nav-item active">
+                <span class="material-symbols-outlined">person</span>
+                <span class="nav-text">Mi Perfil</span>
+            </a>
+            <a href="/login" class="nav-item nav-logout" id="btnLogout">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="nav-text">Cerrar Sesión</span>
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- ── Contenido principal ───────────────────────────────────────────────
+         Área de trabajo adaptativa. Se desplaza automáticamente a la derecha
+         cuando el sidebar cambia a su estado expandido.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <main class="main-content" id="mainContent">
+        <div class="container-fluid mx-auto" style="max-width: 1100px;">
+
+            <!-- Encabezado de la página -->
+            <div class="mb-4">
+                <h4 class="fw-semibold mb-1" style="font-family: var(--ff-headline)">Mi Perfil</h4>
+                <p style="color: var(--clr-on-surface-var)">Actualiza tus datos personales e información de contacto.
+                </p>
+                <hr style="border-color: var(--clr-outline-var)">
+            </div>
+
+            <div class="row g-4">
+
+                <!-- ── Columna izquierda: Resumen del perfil ──────────────────────
+                     Muestra el avatar dinámico de DiceBear y datos informativos.
+                ──────────────────────────────────────────────────────────────── -->
+                <div class="col-12 col-lg-4">
+                    <div class="custom-card p-5 text-center h-100">
+                        <!-- Avatar renderizado de forma dinámica por dashboard.js -->
+                        <img src="" alt="Avatar" class="rounded-circle mb-3"
+                            style="width: 140px; height: 140px; border: 4px solid var(--clr-outline-var); object-fit: cover;"
+                            id="mainAvatar" />
+                        <h5 class="fw-semibold mb-1" style="font-family: var(--ff-headline)" id="mainCardName">
+                            Cargando...</h5>
+                        <p style="color: var(--clr-on-surface-var); font-size: 0.9rem;">Conductor</p>
+                        <p style="color: var(--clr-on-surface-var); font-size: 0.85rem;" id="mainCardCorreo"></p>
+                    </div>
+                </div>
+
+                <!-- ── Columna derecha: Formulario de edición ─────────────────────
+                     Permite modificar datos editables y bloquea los campos
+                     estrictos de identidad legal mediante 'readonly'.
+                ──────────────────────────────────────────────────────────────── -->
+                <div class="col-12 col-lg-8">
+                    <div class="custom-card p-4 p-lg-5 h-100">
+
+                        <!-- dashboard.js captura el evento 'submit' de este formulario por su ID -->
+                        <form id="formPerfil">
+                            <div class="row g-4 mb-4">
+
+                                <!-- Nombres (Editable) -->
+                                <div class="col-md-6">
+                                    <label class="field-label" for="inputNombres">Nombres</label>
+                                    <div class="input-icon-wrapper">
+                                        <input class="field-control" type="text" id="inputNombres"
+                                            placeholder="Solo letras, sin números ni símbolos" />
+                                    </div>
+                                </div>
+
+                                <!-- Apellidos (Editable) -->
+                                <div class="col-md-6">
+                                    <label class="field-label" for="inputApellidos">Apellidos</label>
+                                    <div class="input-icon-wrapper">
+                                        <input class="field-control" type="text" id="inputApellidos"
+                                            placeholder="Solo letras, sin números ni símbolos" />
+                                    </div>
+                                </div>
+
+                                <!-- Tipo de documento (Solo lectura por seguridad e integridad de datos) -->
+                                <div class="col-md-6">
+                                    <label class="field-label" for="inputTipoDoc">Tipo de documento</label>
+                                    <input class="field-control" type="text" id="inputTipoDoc" readonly
+                                        style="opacity: 0.6; cursor: not-allowed;" />
+                                </div>
+
+                                <!-- Número de documento (Solo lectura por seguridad e integridad de datos) -->
+                                <div class="col-md-6">
+                                    <label class="field-label" for="inputDoc">Número de documento</label>
+                                    <input class="field-control" type="text" id="inputDoc" readonly
+                                        style="opacity: 0.6; cursor: not-allowed;" />
+                                </div>
+
+                                <!-- Correo electrónico (Editable) -->
+                                <div class="col-12">
+                                    <label class="field-label" for="inputCorreo">Correo electrónico</label>
+                                    <input class="field-control" type="email" id="inputCorreo"
+                                        placeholder="usuario@dominio.com" />
+                                </div>
+
+                                <!-- Teléfono (Editable) -->
+                                <div class="col-12">
+                                    <label class="field-label" for="inputTelefono">Teléfono</label>
+                                    <input class="field-control" type="text" id="inputTelefono"
+                                        placeholder="Solo números" />
+                                </div>
+
+                            </div>
+
+                            <!-- Barra de acciones inferiores -->
+                            <div class="d-flex justify-content-end align-items-center gap-3 pt-3">
+                                <button type="button" class="forgot-link" id="btnCancelar">Cancelar</button>
+                                <button type="submit" class="btn-login" style="width: auto; padding: 0.75rem 1.5rem;">
+                                    Guardar cambios
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal: Cambiar contraseña ──────────────────────────────────────────────
+     Se activa desde el sidebar. Requiere contraseña actual antes de cambiar.
+─────────────────────────────────────────────────────────────────────────── -->
+        <div class="modal fade" id="modalContrasena" tabindex="-1" aria-labelledby="modalContrasenaLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content"
+                    style="background-color: #001f2e; border: 2px solid var(--clr-primary); border-radius: 12px;">
+
+                    <div class="modal-header" style="border-bottom: 1px solid var(--clr-outline-var);">
+                        <h5 class="modal-title fw-semibold" id="modalContrasenaLabel"
+                            style="font-family: var(--ff-headline); color: var(--clr-on-surface);">
+                            Cambiar contraseña
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="formContrasena">
+
+                            <div class="mb-3">
+                                <label class="field-label" for="inputContrasenaActual">Contraseña actual</label>
+                                <div class="d-flex align-items-center" style="position: relative;">
+                                    <input class="field-control" type="password" id="inputContrasenaActual"
+                                        placeholder="Ingresa tu contraseña actual" style="padding-right: 2.8rem;" />
+                                    <button type="button" class="toggle-password-modal"
+                                        style="position: absolute; right: 0.75rem; background: none; border: none; cursor: pointer; color: var(--clr-on-surface-var);">
+                                        <span class="material-symbols-outlined"
+                                            style="font-size: 1.2rem;">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="field-label" for="inputContrasenaNueva">Nueva contraseña</label>
+                                <div class="d-flex align-items-center" style="position: relative;">
+                                    <input class="field-control" type="password" id="inputContrasenaNueva"
+                                        placeholder="Mínimo 8 caracteres, una mayúscula y un especial"
+                                        style="padding-right: 2.8rem;" />
+                                    <button type="button" class="toggle-password-modal"
+                                        style="position: absolute; right: 0.75rem; background: none; border: none; cursor: pointer; color: var(--clr-on-surface-var);">
+                                        <span class="material-symbols-outlined"
+                                            style="font-size: 1.2rem;">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="field-label" for="inputConfirmarContrasena">Confirmar nueva
+                                    contraseña</label>
+                                <div class="d-flex align-items-center" style="position: relative;">
+                                    <input class="field-control" type="password" id="inputConfirmarContrasena"
+                                        placeholder="Repite la nueva contraseña" style="padding-right: 2.8rem;" />
+                                    <button type="button" class="toggle-password-modal"
+                                        style="position: absolute; right: 0.75rem; background: none; border: none; cursor: pointer; color: var(--clr-on-surface-var);">
+                                        <span class="material-symbols-outlined"
+                                            style="font-size: 1.2rem;">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="modal-footer" style="border-top: 1px solid var(--clr-outline-var);">
+                        <button type="button" class="forgot-link" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn-login" id="btnGuardarContrasena"
+                            style="width: auto; padding: 0.75rem 1.5rem;">
+                            Guardar contraseña
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SweetAlert2 - Requerido para el boton Cerrar Sesión -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap JS — Requerido para el funcionamiento de colapsables y alertas -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- dashboard.js maneja de forma centralizada: toggle del sidebar, 
+         peticiones de lectura de perfil y envío de actualizaciones a la API -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+
+</html>

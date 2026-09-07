@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalles del Parqueadero - Parquéate Cerca</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detalles_parqueadero.css') }}">
+</head>
+
+<body>
+
+    <header class="navbar-custom">
+        <div class="d-flex align-items-center flex-grow-1 gap-3">
+            <button class="nav-icon-btn" id="toggleSidebar" title="Menú de navegación">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <a href="/" class="navbar-brand-custom">Parquéate Cerca</a>
+        </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="" alt="Avatar" class="sidebar-avatar" id="sidebarAvatar" />
+            <div class="profile-info">
+                <div class="profile-name" id="sidebarName">Cargando...</div>
+                <div class="profile-role">Conductor</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav-container">
+            <a href="/conductor/mapa" class="nav-item active">
+                <span class="material-symbols-outlined">map</span>
+                <span class="nav-text">Mapa</span>
+            </a>
+            <a href="/conductor/vehiculos" class="nav-item">
+                <span class="material-symbols-outlined">directions_car</span>
+                <span class="nav-text">Mis Vehículos</span>
+            </a>
+            <a href="/conductor/perfil?accion=cambiar-contrasena" class="nav-item">
+                <span class="material-symbols-outlined">lock_reset</span>
+                <span class="nav-text">Cambiar Contraseña</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/conductor/perfil" class="nav-item">
+                <span class="material-symbols-outlined">person</span>
+                <span class="nav-text">Mi Perfil</span>
+            </a>
+            <a href="/login" class="nav-item nav-logout" id="btnLogout">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="nav-text">Cerrar Sesión</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content" id="mainContent" data-id-parqueadero="{{ id_parqueadero }}">
+
+        <div id="loaderDetalle" class="loader-detalle">
+            <span class="material-symbols-outlined">progress_activity</span>
+            Cargando parqueadero...
+        </div>
+
+        <div id="contenidoDetalle" class="d-none">
+
+            <a href="/conductor/mapa" class="btn-volver">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Volver al mapa
+            </a>
+
+            <div id="carruselFotos" class="carousel slide carrusel-parqueadero mb-4">
+                <div class="carousel-inner" id="carruselInner"></div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carruselFotos"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carruselFotos"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+                <div class="carousel-indicators" id="carruselIndicadores"></div>
+            </div>
+
+            <div class="detalle-encabezado mb-4">
+                <div>
+                    <h1 class="detalle-nombre" id="detNombre">—</h1>
+                    <div class="detalle-calificacion">
+                        <span class="estrellas" id="detEstrellas"></span>
+                        <span id="detPromedioTexto">Sin calificaciones aún</span>
+                    </div>
+                    <p class="detalle-direccion">
+                        <span class="material-symbols-outlined">location_on</span>
+                        <span id="detDireccion">—</span>
+                    </p>
+                </div>
+                <div class="disponibilidad-badge">
+                    <span class="disponibilidad-label">Cupos libres</span>
+                    <span class="disponibilidad-valor" id="detCuposLibres">—</span>
+                </div>
+            </div>
+
+            <div class="custom-card p-4 mb-4">
+                <h3 class="seccion-titulo">Sobre el lugar</h3>
+                <p id="detDescripcion" class="detalle-descripcion">Cargando descripción...</p>
+
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6 dato-contacto">
+                        <span class="material-symbols-outlined">call</span>
+                        <div>
+                            <small>Teléfono</small>
+                            <strong id="detTelefono">—</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-6 dato-contacto">
+                        <span class="material-symbols-outlined">mail</span>
+                        <div>
+                            <small>Correo</small>
+                            <strong id="detCorreo">—</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-card p-4 mb-4">
+                <h3 class="seccion-titulo">Horario</h3>
+                <p id="detHorarioGeneral" class="detalle-horario">—</p>
+            </div>
+
+            <div class="custom-card p-4 mb-4">
+                <h3 class="seccion-titulo">Cupos por tipo de vehículo</h3>
+                <div class="row g-3" id="cuposDetalle"></div>
+            </div>
+
+            <div class="custom-card p-4 mb-4 d-none" id="serviciosBloque">
+                <h3 class="seccion-titulo">Servicios adicionales</h3>
+                <div class="row g-3" id="serviciosDetalle"></div>
+            </div>
+
+            <div class="custom-card p-4">
+                <div class="resenas-encabezado">
+                    <h3 class="seccion-titulo mb-0">Reseñas</h3>
+                    <button type="button" class="btn-dejar-resena" id="btnDejarResena" data-bs-toggle="modal"
+                        data-bs-target="#modalResena">
+                        <span class="material-symbols-outlined">rate_review</span>
+                        <span id="txtBotonResena">Dejar reseña</span>
+                    </button>
+                </div>
+                <div id="listaResenas" class="lista-resenas mt-3"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalResena" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-resena">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title" id="tituloModalResena">Calificar parqueadero</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="selector-estrellas" id="selectorEstrellas">
+                        <button type="button" class="estrella-input" data-valor="1">
+                            <span class="material-symbols-outlined">star</span>
+                        </button>
+                        <button type="button" class="estrella-input" data-valor="2">
+                            <span class="material-symbols-outlined">star</span>
+                        </button>
+                        <button type="button" class="estrella-input" data-valor="3">
+                            <span class="material-symbols-outlined">star</span>
+                        </button>
+                    </div>
+                    <textarea id="inputResenaTexto" class="field-control" rows="3" maxlength="200"
+                        placeholder="Escribe tu reseña (opcional)..."></textarea>
+                    <p class="field-hint text-end mb-0"><span id="contadorResena">0</span>/200</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn-cancelar-resena" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn-enviar-resena" id="btnEnviarResena">Enviar reseña</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <script src="{{ url_for('static', filename='js/detalles_parqueadero.js') }}"></script>
+
+</body>
+
+</html>

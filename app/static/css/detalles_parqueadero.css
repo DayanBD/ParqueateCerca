@@ -1,0 +1,415 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   detalles_parqueadero.css — Vista de detalle del parqueadero (conductor)
+   RF_10 / RF_11 / RF_12 / RF_13 (lectura) + RF_19 / RF_20 (reseñas)
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+#contenidoDetalle {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* ── Loader ───────────────────────────────────────────────────────────────── */
+.loader-detalle {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--clr-on-surface-var);
+    font-family: var(--ff-body);
+    padding: 3rem 0;
+    justify-content: center;
+}
+
+.loader-detalle .material-symbols-outlined {
+    color: var(--clr-primary);
+    animation: girar-loader 1s linear infinite;
+}
+
+@keyframes girar-loader {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Botón volver ─────────────────────────────────────────────────────────── */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--clr-on-surface-var);
+    text-decoration: none;
+    font-family: var(--ff-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+}
+
+.btn-volver:hover {
+    color: var(--clr-primary);
+}
+
+/* ── Carrusel de fotos ────────────────────────────────────────────────────── */
+.carrusel-parqueadero {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--clr-outline-var);
+}
+
+.carrusel-parqueadero .carousel-item img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+}
+
+.carrusel-parqueadero .sin-fotos {
+    width: 100%;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--clr-surface-chh);
+    color: var(--clr-on-surface-var);
+}
+
+.carrusel-parqueadero .sin-fotos .material-symbols-outlined {
+    font-size: 2.5rem;
+    color: var(--clr-outline-var);
+}
+
+.carrusel-parqueadero .carousel-control-prev-icon,
+.carrusel-parqueadero .carousel-control-next-icon {
+    filter: invert(1) drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
+}
+
+.carrusel-parqueadero .carousel-indicators [data-bs-target] {
+    background-color: var(--clr-on-surface-var);
+}
+
+.carrusel-parqueadero .carousel-indicators .active {
+    background-color: var(--clr-primary);
+}
+
+/* ── Encabezado ───────────────────────────────────────────────────────────── */
+.detalle-encabezado {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.detalle-nombre {
+    font-family: var(--ff-headline);
+    font-weight: 800;
+    font-size: 1.9rem;
+    margin: 0 0 0.35rem;
+}
+
+.detalle-calificacion {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--clr-on-surface-var);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.estrellas .material-symbols-outlined {
+    font-size: 1.15rem;
+    color: var(--clr-outline-var);
+}
+
+.estrellas .material-symbols-outlined.llena {
+    color: #ffc107;
+    font-variation-settings: 'FILL' 1;
+}
+
+.detalle-direccion {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--clr-on-surface-var);
+    font-size: 0.92rem;
+    margin: 0;
+}
+
+.detalle-direccion .material-symbols-outlined {
+    color: var(--clr-primary);
+    font-size: 1.1rem;
+}
+
+.disponibilidad-badge {
+    background-color: var(--clr-surface-chh);
+    border: 1px solid var(--clr-outline-var);
+    border-radius: 10px;
+    padding: 0.9rem 1.4rem;
+    text-align: center;
+    min-width: 140px;
+}
+
+.disponibilidad-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--clr-on-surface-var);
+    margin-bottom: 0.25rem;
+}
+
+.disponibilidad-valor {
+    font-family: var(--ff-headline);
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: var(--clr-primary);
+}
+
+/* ── Secciones ────────────────────────────────────────────────────────────── */
+.seccion-titulo {
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 0.85rem;
+}
+
+.detalle-descripcion {
+    color: var(--clr-on-surface-var);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.dato-contacto {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.dato-contacto .material-symbols-outlined {
+    color: var(--clr-primary);
+    font-size: 1.4rem;
+}
+
+.dato-contacto small {
+    display: block;
+    color: var(--clr-on-surface-var);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+}
+
+.detalle-horario {
+    color: var(--clr-on-surface-var);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ── Cupos ────────────────────────────────────────────────────────────────── */
+.cupo-card {
+    background-color: var(--clr-surface-chh);
+    border: 1px solid var(--clr-outline-var);
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cupo-card .material-symbols-outlined {
+    color: var(--clr-primary);
+    font-size: 1.6rem;
+}
+
+.cupo-card-nombre {
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: block;
+}
+
+.cupo-card-valor {
+    color: var(--clr-on-surface-var);
+    font-size: 0.82rem;
+}
+
+.cupo-card-valor.lleno {
+    color: #ff5252;
+}
+
+/* ── Servicios ────────────────────────────────────────────────────────────── */
+.servicio-card {
+    background-color: var(--clr-surface-chh);
+    border: 1px solid var(--clr-outline-var);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.servicio-card-titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.servicio-card-titulo .material-symbols-outlined {
+    color: var(--clr-primary);
+}
+
+.servicio-card-horario {
+    color: var(--clr-on-surface-var);
+    font-size: 0.82rem;
+    margin: 0;
+}
+
+/* ── Reseñas ──────────────────────────────────────────────────────────────── */
+.resenas-encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.btn-dejar-resena {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: var(--clr-primary);
+    color: #00101b;
+    border: none;
+    border-radius: 8px;
+    padding: 0.55rem 1.1rem;
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.btn-dejar-resena:hover {
+    filter: brightness(1.08);
+}
+
+.lista-resenas {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.resena-item {
+    display: flex;
+    gap: 0.85rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--clr-outline-var);
+}
+
+.resena-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.resena-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--clr-surface-bright);
+    color: var(--clr-primary);
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.resena-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.15rem;
+}
+
+.resena-autor {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.resena-fecha {
+    color: var(--clr-on-surface-var);
+    font-size: 0.78rem;
+}
+
+.resena-comentario {
+    color: var(--clr-on-surface-var);
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0;
+}
+
+.sin-resenas {
+    color: var(--clr-on-surface-var);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* ── Modal de reseña ──────────────────────────────────────────────────────── */
+.modal-resena {
+    background-color: var(--clr-surface-chh);
+    border: 1.5px solid var(--clr-outline-var);
+    border-radius: 14px;
+    color: var(--clr-on-surface);
+}
+
+.modal-resena .modal-title {
+    font-family: var(--ff-headline);
+    font-weight: 700;
+}
+
+.selector-estrellas {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.estrella-input {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.estrella-input .material-symbols-outlined {
+    font-size: 2.2rem;
+    color: var(--clr-outline-var);
+    transition: color 0.15s;
+}
+
+.estrella-input.activa .material-symbols-outlined {
+    color: #ffc107;
+    font-variation-settings: 'FILL' 1;
+}
+
+.btn-cancelar-resena {
+    background: transparent;
+    border: 1px solid var(--clr-outline-var);
+    color: var(--clr-on-surface-var);
+    border-radius: 8px;
+    padding: 0.55rem 1.2rem;
+    font-weight: 600;
+}
+
+.btn-enviar-resena {
+    background-color: var(--clr-primary);
+    color: #00101b;
+    border: none;
+    border-radius: 8px;
+    padding: 0.55rem 1.2rem;
+    font-weight: 700;
+}

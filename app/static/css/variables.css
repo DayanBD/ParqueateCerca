@@ -1,0 +1,118 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   variables.css — Variables CSS globales y utilidades base del proyecto
+   Importado por todos los archivos CSS (login.css, registro.css, recuperar.css)
+   Contiene: Tokens de diseño (Colores/Fuentes), Reset global y clases comunes
+────────────────────────────────────────────────────────────────────────────── */
+
+:root {
+    /* Colores Principales (Brand Colors) */
+    --clr-primary: #91f78e;
+    --clr-primary-dim: #52b555;
+
+    /* Superficies y Fondos (Dark Mode Surfaces) */
+    --clr-surface: #00101b;
+    --clr-surface-chh: #00293e;
+    --clr-surface-bright: #002f47;
+
+    /* Textos y Contrastes (Typography Colors) */
+    --clr-on-surface: #cfe9ff;
+    --clr-on-surface-var: #8cafcb;
+    --clr-on-primary: #005e17;
+
+    /* Bordes y Líneas (Borders & Outlines) */
+    --clr-outline-var: #274b64;
+
+    /* Fuentes Tipográficas (Typography Families) */
+    --ff-headline: 'Manrope', sans-serif;
+    --ff-body: 'Inter', sans-serif;
+}
+
+/* ── Reset Global ─────────────────────────────────────────────────────────── */
+/* Asegura que el padding y los bordes no alteren el ancho calculado de los elementos */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* ── Campos del formulario (Estilos Utilitarios) ─────────────────────────── */
+/* Etiqueta superior común para los inputs */
+.field-label {
+    display: block;
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .10em;
+    font-weight: 600;
+    color: var(--clr-on-surface-var);
+    margin-bottom: .3rem;
+}
+
+/* Control de entrada base compartido en todo el flujo de autenticación */
+.field-control {
+    width: 100%;
+    background: var(--clr-surface-chh);
+    color: var(--clr-on-surface);
+    border: none;
+    border-radius: .5rem;
+    padding: .9rem 1rem;
+    font-family: var(--ff-body);
+    font-size: .95rem;
+    transition: box-shadow .2s, background .2s;
+    appearance: none;
+    /* Elimina estilos nativos del sistema operativo */
+    -webkit-appearance: none;
+    /* Compatibilidad con Safari */
+}
+
+.field-control::placeholder {
+    color: var(--clr-on-surface-var);
+}
+
+/* Estado de enfoque para inputs — resalta con el color principal de la marca */
+.field-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 1.5px var(--clr-primary);
+    background: var(--clr-surface-bright);
+}
+
+/* ── Botones e Interactivos (Estilos Utilitarios) ─────────────────────────── */
+/* Botón principal de acción con animaciones de escala y brillo */
+.btn-login {
+    background-color: var(--clr-primary);
+    color: var(--clr-surface-chh);
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: .75rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-login:hover {
+    transform: scale(1.03);
+    filter: brightness(1.05);
+}
+
+.btn-login:active {
+    transform: scale(0.97);
+}
+
+/* Enlaces secundarios estilizados como botones planos transparentes */
+.forgot-link {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--clr-primary);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.forgot-link:hover {
+    text-decoration: underline 2px;
+    color: var(--clr-primary);
+}

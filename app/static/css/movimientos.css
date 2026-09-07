@@ -1,0 +1,123 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   movimientos.css — Estilos exclusivos del panel de movimientos e historial.
+   La base visual (navbar, sidebar, custom-card) la provee perfil.css.
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+/* ── Buscador ─────────────────────────────────────────────────────────────── */
+.search-wrapper {
+    position: relative;
+}
+
+.search-input {
+    background-color: var(--clr-bg, #00101b);
+    border: 1px solid var(--clr-outline-var);
+    color: var(--clr-on-surface);
+    border-radius: 8px;
+    padding: 0.6rem 1rem 0.6rem 2.5rem;
+    width: 280px;
+    font-family: var(--ff-body);
+}
+
+.search-input:focus {
+    border-color: var(--clr-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(145, 247, 142, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--clr-on-surface-var);
+    font-size: 1.2rem;
+}
+
+/* ── Tabla ────────────────────────────────────────────────────────────────── */
+.table-custom {
+    /* Sobrescribe las variables de Bootstrap para toda la tabla: sin esto,
+       cada celda hereda --bs-table-bg (blanco) y --bs-table-color (casi
+       negro) por defecto, sin importar qué colores definamos abajo. */
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--clr-on-surface);
+    margin-top: 0.5rem;
+}
+
+.table-custom th {
+    background-color: transparent;
+    color: var(--clr-on-surface-var);
+    border-bottom: 2px solid var(--clr-outline-var);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+}
+
+.table-custom td {
+    color: var(--clr-on-surface);
+    border-bottom: 1px solid var(--clr-outline-var);
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.table-custom tbody tr:hover td {
+    background-color: rgba(145, 247, 142, 0.03);
+}
+
+/* ── Badges de estado y origen ────────────────────────────────────────────── */
+.badge-status {
+    padding: 0.4em 0.8em;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+}
+
+.bg-activo {
+    background-color: rgba(145, 247, 142, 0.15);
+    color: var(--clr-primary);
+    border: 1px solid var(--clr-primary);
+}
+
+.bg-retirado {
+    background-color: rgba(140, 175, 203, 0.1);
+    color: var(--clr-on-surface-var);
+    border: 1px solid var(--clr-on-surface-var);
+}
+
+.badge-origen {
+    font-size: 0.72rem;
+    padding: 0.35em 0.6em;
+    border-radius: 4px;
+}
+
+.origen-app {
+    background-color: rgba(0, 153, 255, 0.15);
+    color: #0099ff;
+}
+
+.origen-manual {
+    background-color: rgba(255, 152, 0, 0.15);
+    color: #ff9800;
+}
+
+/* ── Loader ───────────────────────────────────────────────────────────────── */
+#loader {
+    text-align: center;
+    padding: 3rem;
+}
+
+.spin-icon {
+    font-size: 2.5rem;
+    color: var(--clr-on-surface-var);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}

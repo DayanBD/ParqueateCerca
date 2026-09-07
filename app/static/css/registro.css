@@ -1,0 +1,204 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   registro.css — Estilos para la interfaz dividida de registro de usuarios
+   Usado directamente por: registro.html
+   Importa la base de login y variables globales
+   Estructura: Sidebar lateral informativo + Panel de formulario (Form pane)
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('login.css');
+@import url('variables.css');
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+/* Panel lateral izquierdo con fondo gradiente, visible principalmente en desktop */
+.sidebar {
+    position: relative;
+    min-height: 100vh;
+    /* Fondo oscuro con destello verde brillante en la base */
+    background: linear-gradient(360deg, #91f78e 0%, #001c2c 60%, #00293e 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor interno del sidebar, centra el contenido verticalmente */
+.sidebar-content {
+    position: relative;
+    z-index: 2;
+    /* Asegura que el texto quede sobre cualquier capa de fondo */
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    gap: 2rem;
+}
+
+/* Título principal de la marca en el panel lateral */
+.sidebar-brand {
+    font-family: var(--ff-headline);
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: var(--clr-primary);
+    letter-spacing: -.03em;
+}
+
+/* Eslogan o texto descriptivo debajo de la marca */
+.sidebar-tagline {
+    color: var(--clr-on-surface-var);
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.65;
+    margin-top: .75rem;
+}
+
+/* Tarjeta con efecto vidrio dentro del sidebar para destacar datos clave */
+.glass-card {
+    background: rgba(0, 41, 62, .5);
+    backdrop-filter: blur(20px);
+    /* Desenfoque de fondo estilo Glassmorphism */
+    -webkit-backdrop-filter: blur(20px);
+    /* Compatibilidad con Safari */
+    border: 1.5px solid var(--clr-outline-var);
+    border-radius: .75rem;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Contenedor del ícono dentro de la glass-card */
+.glass-card-icon {
+    background: rgba(145, 247, 142, .15);
+    /* Fondo verde sutil con opacidad */
+    border-radius: .5rem;
+    padding: .65rem;
+    display: flex;
+    align-items: center;
+}
+
+.glass-card-icon .material-symbols-outlined {
+    color: var(--clr-primary);
+    font-size: 1.5rem;
+}
+
+/* Etiqueta pequeña superior dentro de la tarjeta */
+.glass-card-label {
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--clr-primary);
+    font-weight: 700;
+    margin-bottom: .2rem;
+}
+
+/* Texto o valor principal de la tarjeta */
+.glass-card-value {
+    font-weight: 600;
+    color: var(--clr-on-surface);
+}
+
+/* ── Form pane ────────────────────────────────────────────────────────────── */
+/* Panel derecho que contiene el formulario de registro real */
+.form-pane {
+    background: var(--clr-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    min-height: 100vh;
+}
+
+/* Contenedor interno del formulario para limitar su ancho máximo en pantallas grandes */
+.form-pane-inner {
+    width: 100%;
+    max-width: 640px;
+}
+
+/* Logo alternativo que se muestra en dispositivos móviles (cuando el sidebar se oculta) */
+.mobile-logo {
+    font-family: var(--ff-headline);
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--clr-primary);
+    letter-spacing: -.03em;
+}
+
+/* Título de la sección del formulario (ej: "Crear Cuenta") */
+.section-title {
+    font-family: var(--ff-headline);
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--clr-on-surface);
+}
+
+/* Subtítulo explicativo debajo del título de la sección */
+.section-sub {
+    color: var(--clr-on-surface-var);
+    margin-top: .25rem;
+}
+
+/* ── Footer del form ──────────────────────────────────────────────────────── */
+/* Pie del formulario con línea separadora superior */
+.form-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--clr-outline-var);
+    display: flex;
+    align-items: center;
+    font-size: .8rem;
+    color: var(--clr-on-surface-var);
+}
+
+/* ── Terms ────────────────────────────────────────────────────────────────── */
+/* Contenedor para la casilla de verificación de términos y condiciones */
+.terms-check {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    font-size: .85rem;
+    color: var(--clr-on-surface-var);
+    margin-top: 1rem;
+}
+
+/* Estilos personalizados para el checkbox nativo */
+.terms-check input[type="checkbox"] {
+    accent-color: var(--clr-primary);
+    /* Aplica el color verde de la marca */
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    /* Evita que el checkbox se deforme si el texto es muy largo */
+    margin-top: .15rem;
+    cursor: pointer;
+}
+
+/* Enlaces dentro de los términos (ej: "Términos de servicio") */
+.terms-check a {
+    color: var(--clr-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.terms-check a:hover {
+    text-decoration: underline 2px;
+}
+
+/* Texto inferior para redirigir al inicio de sesión si ya tiene cuenta */
+.login-hint {
+    text-align: center;
+    color: var(--clr-on-surface-var);
+    font-size: .95rem;
+    margin-top: 1rem;
+}
+
+.login-hint a {
+    color: var(--clr-primary);
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: .25rem;
+}
+
+.login-hint a:hover {
+    text-decoration: underline 2px;
+}

@@ -1,0 +1,701 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   style.css — Estilos estructurados para la Landing Page (index.html)
+   Importa variables globales desde variables.css
+   Nota: Mantiene alias semánticos propios para compatibilidad heredada
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+/* ── Variables específicas del index ─────────────────────────────────────────
+   Estas variables usan nombres distintos a las de login.css y dashboard.css
+   porque el index fue desarrollado antes de unificar el sistema de variables.
+   Se mantienen como alias para no romper los estilos existentes.
+────────────────────────────────────────────────────────────────────────────── */
+:root {
+    --color-primary: #91f78e;
+    /* Verde principal de la marca */
+    --color-secondary: #86faac;
+    /* Verde secundario más claro */
+    --color-bg: #00101b;
+    /* Fondo oscuro profundo */
+    --color-surface: #001c2c;
+    /* Fondo de componentes y secciones */
+    --color-surface-high: #002235;
+    /* Fondo elevado para inputs y focos */
+    --color-on-surface: #cfe9ff;
+    /* Texto de alto contraste */
+    --color-on-surface-variant: #8cafcb;
+    /* Texto secundario/atenuado */
+    --color-outline: #274b64;
+    /* Bordes y líneas divisorias */
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+body {
+    background-color: var(--color-bg);
+    color: var(--color-on-surface);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Aplicación de fuente Manrope para jerarquía de encabezados */
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Manrope', sans-serif;
+}
+
+/* ── Navbar ───────────────────────────────────────────────────────────────── */
+/* Barra de navegación superior con posicionamiento fijo y división inferior */
+.navbar {
+    border-bottom: 1px solid var(--color-outline);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: var(--color-bg);
+}
+
+/* Logotipo principal dentro del menú de navegación */
+.navbar-brand {
+    color: var(--color-primary);
+    font-family: 'Manrope', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+}
+
+.navbar-brand:hover {
+    color: var(--color-primary);
+}
+
+/* Enlaces individuales del menú de navegación */
+.nav-link {
+    color: var(--color-on-surface);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px 6px 0 0;
+    transition: all 0.3s ease;
+    /* Borde inferior transparente que reserva el espacio para el estado activo */
+    border-bottom: 3px solid transparent;
+}
+
+.nav-link:hover {
+    color: var(--color-primary);
+}
+
+/* Link activo: Se antepone '.navbar' para ganar especificidad a Bootstrap de forma limpia */
+.navbar .nav-link.active {
+    color: var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
+}
+
+/* Botón de menú colapsable (hamburguesa) en vistas móviles */
+.navbar-toggler {
+    border-color: var(--color-outline);
+}
+
+/* Invierte el color del icono nativo para asegurar contraste sobre fondo oscuro */
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* ── Botones personalizados ───────────────────────────────────────────────── */
+/* Botón sólido verde — Llamados a la acción principales (CTA) */
+a.btn.btn-primary-custom,
+button.btn.btn-primary-custom {
+    background: var(--color-primary);
+    color: var(--color-surface);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.5rem 1.4rem;
+    border-radius: 10px;
+    border: none;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+a.btn.btn-primary-custom:hover,
+button.btn.btn-primary-custom:hover {
+    background: var(--color-primary);
+    color: var(--color-surface);
+    transform: scale(1.03);
+    filter: brightness(1.05);
+}
+
+a.btn.btn-primary-custom:active,
+button.btn.btn-primary-custom:active {
+    background: var(--color-primary);
+    color: var(--color-surface);
+    transform: scale(0.97);
+}
+
+/* Botón con contorno — Acciones secundarias */
+a.btn.btn-outline-custom,
+button.btn.btn-outline-custom {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.5rem 1.4rem;
+    border-radius: 10px;
+    border: 2px solid var(--color-secondary);
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+a.btn.btn-outline-custom:hover,
+button.btn.btn-outline-custom:hover {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    border-color: var(--color-secondary);
+    transform: scale(1.03);
+    filter: brightness(1.05);
+}
+
+a.btn.btn-outline-custom:active,
+button.btn.btn-outline-custom:active {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    transform: scale(0.97);
+}
+
+/* ── Sección Hero ─────────────────────────────────────────────────────────── */
+/* Pantalla de presentación principal con límites de desborde */
+.hero {
+    min-height: 100vh;
+    padding-top: 100px;
+    /* Compensación de altura por navbar fija superior */
+    padding-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Elemento decorativo flotante de fondo (círculo difuminado) */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+}
+
+/* Pequeño contenedor flotante indicador de localización */
+.hero-badge {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-outline);
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-on-surface-variant);
+}
+
+/* Punto indicador animado dentro del badge de localización */
+.hero-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    animation: pulse 2s infinite;
+}
+
+/* Animación cíclica de latido de presencia activa */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(1.3);
+    }
+}
+
+/* Título de impacto masivo en la sección de bienvenida */
+.hero-title {
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-on-surface);
+}
+
+/* Texto de énfasis en el título con color de marca secundario */
+.hero-gradient-text {
+    color: var(--color-secondary);
+}
+
+/* Párrafo introductorio corto del hero */
+.hero-desc {
+    font-size: 1.15rem;
+    color: var(--color-on-surface-variant);
+    line-height: 1.7;
+    max-width: 500px;
+}
+
+.hero-desc strong {
+    color: var(--color-on-surface);
+    font-weight: 600;
+}
+
+/* Envoltura para el control geométrico de la imagen de presentación */
+.hero-img-wrapper {
+    position: relative;
+    border-radius: 24px;
+}
+
+/* Imagen representativa ajustada por recorte */
+.hero-img {
+    width: 100%;
+    height: 550px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* ── Sección Sobre nosotros ───────────────────────────────────────────────── */
+/* Bloque corporativo con alternancia de fondo más claro */
+.about {
+    padding: 6rem 0;
+    background-color: var(--color-surface);
+}
+
+/* Título de la sección corporativa */
+.about-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-on-surface);
+    margin-bottom: 1rem;
+}
+
+/* Cuerpo de texto descriptivo general */
+.about-text {
+    font-size: 1.1rem;
+    color: var(--color-on-surface);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+}
+
+.about-text strong {
+    color: var(--color-secondary);
+    font-weight: 600;
+}
+
+/* Bloques modulares internos de misión y visión */
+.about-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-outline);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+}
+
+.about-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.about-card-text {
+    font-size: 1rem;
+    color: var(--color-on-surface);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── Sección Servicios ────────────────────────────────────────────────────── */
+/* Contenedor principal de exposición de características del sistema */
+.services {
+    padding: 6rem 0;
+    background-color: var(--color-bg);
+}
+
+.services-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-on-surface);
+    margin-bottom: 1rem;
+}
+
+.services-subtitle {
+    font-size: 1rem;
+    color: var(--color-on-surface-variant);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Tarjetas individuales de características con interacción reactiva */
+.service-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-outline);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.service-card strong {
+    color: var(--color-secondary);
+    font-weight: 600;
+}
+
+/* Elevación de tarjeta y cambio de color perimetral en hover */
+.service-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+}
+
+/* Contenedor geométrico para destacar los iconos de los servicios */
+.service-card-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-surface-high);
+    border-radius: 12px;
+    border: 2px solid var(--color-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--color-on-surface);
+}
+
+.service-card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+}
+
+.service-card-text {
+    font-size: 1rem;
+    color: var(--color-on-surface);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Fila utilitaria informativa con icono blindado contra deformación */
+.service-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-outline);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-on-surface-variant);
+}
+
+.service-info-item i {
+    color: var(--color-primary);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* Bloque alineado para visualización de métricas por estrellas */
+.service-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.service-stars-label {
+    font-size: 0.9rem;
+    color: var(--color-on-surface-variant);
+    margin-left: 0.25rem;
+}
+
+/* Simulación de alerta o notificación interactiva en tiempo real */
+.service-alert-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-outline);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-on-surface-variant);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.service-alert-box i {
+    color: var(--color-primary);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+/* ── Sección Equipo ───────────────────────────────────────────────────────── */
+.team {
+    padding: 6rem 0;
+    background-color: var(--color-surface);
+}
+
+/* Título responsivo dinámico calculado por el motor del navegador */
+.team-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-on-surface);
+    margin-bottom: 1rem;
+}
+
+/* Tarjeta del perfil del desarrollador */
+.team-card {
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-outline);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    transition: border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card:hover {
+    border-color: var(--color-primary);
+}
+
+/* Contenedor circular simétrico para avatar */
+.team-img-wrapper {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 1.5rem;
+    border: 3px solid var(--color-primary);
+    flex-shrink: 0;
+}
+
+.team-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-on-surface);
+    margin: 0;
+}
+
+/* ── Carrusel del equipo ──────────────────────────────────────────────────── */
+.carousel-inner {
+    overflow: hidden;
+}
+
+/* Forzado de posición estática inferior para evitar superposiciones de lectura */
+.carousel-indicators {
+    position: static;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+/* Controles de puntos interactivos del deslizador */
+.carousel-indicators [data-bs-target] {
+    background-color: var(--color-outline);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+}
+
+.carousel-indicators .active {
+    background-color: var(--color-primary);
+}
+
+/* Botones laterales circulares de control de navegación del carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 52px;
+    height: 52px;
+    background-color: var(--color-surface);
+    border: 3px solid var(--on-surface);
+    /* Mantiene la herencia nativa */
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-80%);
+    opacity: 1;
+}
+
+.carousel-control-prev {
+    left: -5px;
+}
+
+.carousel-control-next {
+    right: -5px;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 22px;
+    height: 22px;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+/* Bloque masivo de pie de página con amplias áreas de descanso visual */
+.site-footer {
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-outline);
+    padding: 6rem;
+    min-height: 90vh;
+}
+
+.footer-brand {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    text-decoration: none;
+    letter-spacing: -0.005em;
+}
+
+.footer-brand:hover {
+    color: var(--color-primary);
+}
+
+.footer-tagline {
+    font-size: 0.9rem;
+    color: var(--color-on-surface-variant);
+    line-height: 1.7;
+    max-width: 260px;
+    margin-top: 0.75rem;
+}
+
+/* Encabezados para bloques de enlaces del footer */
+.footer-heading {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.footer-links a {
+    font-size: 0.9rem;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    color: var(--color-on-surface);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--color-primary);
+}
+
+.footer-contact-desc {
+    font-size: 0.9rem;
+    color: var(--color-on-surface-variant);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* Bloque de formulario para interacción directa o captura de mensajes */
+.footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* Distribución por rejilla bidimensional para datos del remitente */
+.footer-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+}
+
+/* Inputs internos integrados con paleta de tonos elevados */
+.footer-input {
+    width: 100%;
+    background-color: var(--color-surface-high);
+    border: 1.5px solid var(--color-on-surface-variant);
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.875rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--color-on-surface);
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.footer-input::placeholder {
+    color: var(--color-on-surface);
+    opacity: 0.6;
+}
+
+.footer-input:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-high);
+}
+
+/* Bloque multilínea con bloqueo estructural de deformación por usuario */
+.footer-textarea {
+    resize: none;
+}
+
+.footer-form .footer-btn {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+}
+
+/* Franja inferior absoluta de derechos reservados */
+.footer-bottom {
+    margin-top: 3rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--color-outline);
+    font-size: 0.8rem;
+    color: var(--color-on-surface-variant);
+    text-align: center;
+}
+
+/* ── Responsivo ───────────────────────────────────────────────────────────── */
+@media (max-width: 576px) {
+
+    /* El formulario colapsa a flujo unidimensional vertical en resoluciones móviles */
+    .footer-form-row {
+        grid-template-columns: 1fr;
+    }
+}

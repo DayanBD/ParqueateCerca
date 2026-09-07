@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro - Parquéate Cerca</title>
+
+    <!-- Bootstrap 5.3.8 — Framework CSS para layout y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Fuentes: Manrope para títulos, Inter para cuerpo -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Material Symbols — Iconos para el selector y toggle de contraseña -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Estilos del registro: importa login.css como base -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+</head>
+
+<body>
+
+    <div class="container-fluid p-0">
+        <div class="row g-0 min-vh-100">
+
+            <!-- ── Sidebar decorativo ───────────────────────────────────────────
+                 Solo visible en pantallas grandes (d-none d-lg-flex).
+                 Fondo con degradado verde, muestra la marca y un indicador
+                 de espacios disponibles.
+            ─────────────────────────────────────────────────────────────────── -->
+            <div class="col-lg-5 d-none d-lg-flex sidebar">
+                <div class="sidebar-content">
+
+                    <!-- Nombre de la marca y tagline -->
+                    <div>
+                        <p class="sidebar-brand">Parquéate Cerca</p>
+                        <p class="sidebar-tagline">Accede a la red más inteligente de estacionamientos urbanos en
+                            Valledupar.</p>
+                    </div>
+
+                    <!-- Card de estado con ícono y dato de disponibilidad -->
+                    <div class="glass-card">
+                        <div class="glass-card-icon">
+                            <span class="material-symbols-outlined">local_parking</span>
+                        </div>
+                        <div>
+                            <div class="glass-card-label">Estado</div>
+                            <div class="glass-card-value">+2,400 Espacios disponibles hoy</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ── Panel del formulario ─────────────────────────────────────────
+                 Ocupa toda la pantalla en móvil (col-12) y 7 columnas en desktop.
+                 Contiene el formulario de registro con dos columnas internas.
+            ─────────────────────────────────────────────────────────────────── -->
+            <div class="col-12 col-lg-7 form-pane">
+                <div class="form-pane-inner">
+
+                    <!-- Enlace para volver al index -->
+                    <a href="/" class="btn-volver">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Volver al inicio
+                    </a>
+
+                    <!-- Logo visible solo en móvil (reemplaza el sidebar) -->
+                    <div class="d-lg-none text-center mb-5">
+                        <span class="mobile-logo">Parquéate Cerca</span>
+                    </div>
+
+                    <!-- Título y subtítulo del formulario -->
+                    <div class="mb-5 text-center text-lg-start">
+                        <h2 class="section-title">Crea tu cuenta</h2>
+                        <p class="section-sub">Regístrate para gestionar tus vehículos y buscar tu parqueadero más
+                            cercano.</p>
+                    </div>
+
+                    <!-- Formulario de registro -->
+                    <!-- id="formRegistro" es usado por auth.js para escuchar el submit -->
+                    <form id="formRegistro">
+                        <div class="row g-4">
+
+                            <!-- ── Columna izquierda ──────────────────────────── -->
+                            <div class="col-12 col-md-6">
+
+                                <!-- Selector personalizado de tipo de documento -->
+                                <!-- El valor seleccionado se guarda en el input oculto #tipoDocumento -->
+                                <!-- auth.js maneja la apertura, selección y cierre del desplegable -->
+                                <div class="mb-4">
+                                    <label class="field-label">Tipo de documento</label>
+                                    <div class="custom-select" id="docSelect">
+                                        <div class="custom-select__selected" id="docSelected">
+                                            <span id="docText">Seleccionar tipo</span>
+                                            <span class="material-symbols-outlined custom-select__arrow"
+                                                id="docArrow">expand_more</span>
+                                        </div>
+                                        <ul class="custom-select__options" id="docOptions">
+                                            <!-- data-value corresponde al id_tipo_documento en la BD -->
+                                            <li class="custom-select__option" data-value="1">Cédula de Ciudadanía</li>
+                                            <li class="custom-select__option" data-value="2">Tarjeta de Identidad</li>
+                                            <li class="custom-select__option" data-value="3">Cédula de Extranjería</li>
+                                            <li class="custom-select__option" data-value="4">Pasaporte</li>
+                                        </ul>
+                                    </div>
+                                    <!-- Input oculto que guarda el ID del tipo de documento seleccionado -->
+                                    <input type="hidden" id="tipoDocumento" name="tipoDocumento" />
+                                </div>
+
+                                <!-- Número de documento -->
+                                <div class="mb-4">
+                                    <label class="field-label" for="numeroDocumento">Número de documento</label>
+                                    <input class="field-control" type="text" id="numeroDocumento"
+                                        placeholder="Entre 7 y 10 dígitos numéricos" />
+                                </div>
+
+                                <!-- Nombres -->
+                                <div class="mb-4">
+                                    <label class="field-label" for="nombres">Nombres</label>
+                                    <input class="field-control" type="text" id="nombres"
+                                        placeholder="Solo letras, sin números ni símbolos" />
+                                </div>
+
+                                <!-- Apellidos -->
+                                <div class="mb-4">
+                                    <label class="field-label" for="apellidos">Apellidos</label>
+                                    <input class="field-control" type="text" id="apellidos"
+                                        placeholder="Solo letras, sin números ni símbolos" />
+                                </div>
+
+                                <!-- telefono -->
+                                <div class="mb-4">
+                                    <label class="field-label" for="telefono">Teléfono</label>
+                                    <input class="field-control" type="text" id="telefono" placeholder="Solo números" />
+                                </div>
+                            </div>
+
+                            <!-- ── Columna derecha ────────────────────────────── -->
+                            <div class="col-12 col-md-6">
+
+                                <!-- Correo electrónico -->
+                                <div class="mb-4">
+                                    <label class="field-label" for="correo">Correo electrónico</label>
+                                    <input class="field-control" type="email" id="correo"
+                                        placeholder="usuario@dominio.com" />
+                                </div>
+
+                                <!-- Contraseña con toggle para mostrar/ocultar -->
+                                <!-- auth.js maneja el toggle con la clase .toggle-password -->
+                                <div class="mb-4">
+                                    <label class="field-label" for="password">Contraseña</label>
+                                    <div class="input-icon-wrapper">
+                                        <input class="field-control" id="password" type="password"
+                                            placeholder="••••••••••••" />
+                                        <button type="button" class="toggle-password">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                    <!-- Indicaciones de formato de contraseña -->
+                                    <p class="field-hint">Mínimo 8 caracteres, una mayúscula y un carácter especial.</p>
+                                </div>
+
+                                <!-- Confirmar contraseña -->
+                                <div class="mb-4">
+                                    <label class="field-label" for="confirmPassword">Confirmar contraseña</label>
+                                    <div class="input-icon-wrapper">
+                                        <input class="field-control" id="confirmPassword" type="password"
+                                            placeholder="Repite tu contraseña" />
+                                        <button type="button" class="toggle-password">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Aceptación de términos y condiciones -->
+                                <div class="terms-check">
+                                    <input type="checkbox" id="terms" />
+                                    <label for="terms">
+                                        Acepto los <a href="#">Términos y Condiciones</a> y la
+                                        <a href="#">Política de Privacidad</a> de Parquéate Cerca.
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <!-- ── Botón de envío y enlace al login ──────────── -->
+                            <div class="col-12 mt-3">
+                                <!-- btn-login es la clase del botón verde definida en login.css -->
+                                <button type="submit" class="btn-login">Crear cuenta</button>
+                                <p class="login-hint justify-content-center">
+                                    ¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a>
+                                </p>
+                            </div>
+
+                        </div>
+                    </form>
+
+                    <!-- Copyright -->
+                    <footer class="form-footer justify-content-center">
+                        <span>© 2026 Parquéate Cerca. Todos los derechos reservados.</span>
+                    </footer>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SweetAlert2 — alertas estilizadas para errores y confirmaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap JS — necesario para componentes interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- auth.js maneja: selector de documento, toggle de contraseña y envío del formulario -->
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+</body>
+
+</html>

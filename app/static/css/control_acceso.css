@@ -1,0 +1,171 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   control_acceso.css — Estilos exclusivos del módulo de Ingresos y Salidas
+   (RF_13 / RF_14 / RF_15). La base visual (navbar, sidebar, custom-card)
+   la provee perfil.css.
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('variables.css');
+
+/* ── Input principal de búsqueda ──────────────────────────────────────────── */
+.smart-input {
+    background-color: var(--clr-bg, #00101b);
+    border: 2px solid var(--clr-outline-var);
+    color: var(--clr-on-surface);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 4px;
+    border-radius: 12px;
+    height: 90px;
+    font-family: var(--ff-body);
+    transition: all 0.3s;
+}
+
+.smart-input:focus {
+    background-color: rgba(145, 247, 142, 0.03);
+    border-color: var(--clr-primary);
+    color: var(--clr-on-surface);
+    box-shadow: 0 0 15px rgba(145, 247, 142, 0.1);
+    outline: none;
+}
+
+.smart-input::placeholder {
+    color: rgba(140, 175, 203, 0.3);
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.btn-limpiar {
+    background: transparent;
+    border: 1.5px solid var(--clr-outline-var);
+    color: var(--clr-on-surface-var);
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.9rem 1.5rem;
+    transition: 0.2s;
+}
+
+.btn-limpiar:hover {
+    border-color: var(--clr-on-surface-var);
+    color: var(--clr-on-surface);
+}
+
+/* ── Tarjeta base de cada estado dinámico ─────────────────────────────────── */
+.custom-card {
+    background-color: #001c2c;
+    border: 1px solid var(--clr-outline-var);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 650px;
+}
+
+.estado-header-border {
+    border-bottom: 1px solid var(--clr-outline-var);
+}
+
+/* Estado éxito — usuario de app verificado / código generado */
+.estado-exito {
+    border-color: var(--clr-primary) !important;
+}
+
+.icono-exito,
+.texto-exito {
+    color: var(--clr-primary);
+}
+
+.icono-exito {
+    font-size: 3rem;
+}
+
+/* Estado info — registro manual */
+.estado-info {
+    border-color: #0099ff !important;
+}
+
+.icono-info,
+.texto-info {
+    color: #0099ff;
+}
+
+.icono-info {
+    font-size: 3rem;
+}
+
+.btn-info-custom {
+    background-color: #0099ff;
+    color: #ffffff;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    width: 100%;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.btn-info-custom:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+/* Estado peligro — procesar salida */
+.estado-peligro {
+    border-color: #ff5252 !important;
+}
+
+.icono-peligro,
+.texto-peligro {
+    color: #ff5252;
+    font-size: 3rem;
+}
+
+.texto-peligro {
+    font-size: 1.5rem;
+}
+
+.texto-advertencia {
+    color: #ffb74d;
+}
+
+.btn-peligro-custom {
+    background-color: rgba(255, 82, 82, 0.1);
+    color: #ff5252;
+    border: 1px solid #ff5252;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 14px;
+    width: 100%;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.btn-peligro-custom:hover {
+    background-color: #ff5252;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.caja-placa-salida {
+    background-color: var(--clr-bg, #00101b);
+    border: 1px solid var(--clr-outline-var);
+}
+
+.col-divider {
+    border-right: 1px solid var(--clr-outline-var);
+}
+
+/* ── Código de referencia generado ────────────────────────────────────────── */
+.code-display {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    color: var(--clr-primary);
+    background: rgba(145, 247, 142, 0.05);
+    padding: 20px 40px;
+    border-radius: 16px;
+    display: inline-block;
+    border: 2px dashed var(--clr-primary);
+    margin: 20px 0;
+}

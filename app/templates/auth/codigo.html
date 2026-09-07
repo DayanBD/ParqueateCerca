@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ingresar Código - Parquéate Cerca</title>
+
+    <!-- Bootstrap 5.3.8 — Framework CSS para la estructura responsive y centrado flexible -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Fuentes: Manrope para encabezados de alto impacto, Inter para textos de lectura rápida -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Material Symbols — Íconos informativos y de escudo de seguridad al pie de la tarjeta -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Estilos de recuperación: Hereda los fondos y dimensiones de la interfaz de login -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperar.css') }}">
+</head>
+
+<body>
+
+    <!-- ── Contenedor centrado ──────────────────────────────────────────────────
+         Ocupa el 100% de la altura visual (min-vh-100) y alinea la tarjeta
+         de verificación al centro exacto en horizontal y vertical.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <main class="d-flex align-items-center justify-content-center min-vh-100 px-3 py-5">
+        <div class="login-wrapper">
+
+            <!-- Encabezado de identidad y flujo OTP -->
+            <div class="text-center mb-5">
+                <h1 class="brand-title">Ingresar código</h1>
+                <p class="brand-sub">Hemos enviado un código de 6 dígitos a tu correo o teléfono. Ingrésalo para
+                    continuar.</p>
+            </div>
+
+            <!-- ── Card del formulario ──────────────────────────────────────────
+                 Estructura con efecto Glass Morphism (transparencia y desenfoque).
+                 Organiza la cuadrícula de los 6 casilleros individuales para el token.
+            ─────────────────────────────────────────────────────────────────── -->
+            <div class="glass-card">
+
+                <!-- auth.js captura el evento submit de este formulario mediante el ID 'form-codigo' -->
+                <form id="form-codigo">
+
+                    <!-- Bloque distribuidor de inputs OTP (One-Time Password) -->
+                    <!-- inputmode="numeric" y pattern="[0-9]*" obligan a dispositivos iOS/Android a abrir teclado numérico -->
+                    <!-- maxlength="1" restringe la entrada a un único dígito por casilla -->
+                    <div class="d-flex justify-content-between gap-2 mb-4">
+                        <input class="code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"
+                            required />
+                        <input class="code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"
+                            required />
+                        <input class="code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"
+                            required />
+                        <input class="code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"
+                            required />
+                        <input class="code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"
+                            required />
+                        <input class="code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"
+                            required />
+                    </div>
+
+                    <!-- Botón de validación de formulario -->
+                    <!-- Se establece como type="submit" para que JS intercepte la acción y ejecute el fetch() -->
+                    <div class="mt-4 pt-2">
+                        <button type="submit" class="btn-login">Verificar código</button>
+                    </div>
+
+                </form>
+
+                <!-- Flujo alternativo: Reenvío de token asíncrono si expira o no llega -->
+                <div class="card-footer-divider">
+                    <p class="register-hint">
+                        ¿No recibiste el código?
+                        <a href="#" id="btn-reenviar">Reenviar código</a>
+                    </p>
+                </div>
+
+                <!-- Retorno seguro hacia la pantalla previa de recuperación -->
+                <div class="card-footer-divider">
+                    <a class="forgot-link" href="/recuperar">Volver atrás</a>
+                </div>
+
+            </div>
+
+            <!-- ── Notas técnicas e informativas de soporte al pie ───────────────── -->
+            <!-- Recomendación preventiva sobre bandejas de correo -->
+            <p class="info-hint mt-4">
+                <span class="material-symbols-outlined">info</span>
+                Si no recibes el código en 5 minutos, revisa tu carpeta de spam o contacta con soporte.
+            </p>
+
+            <!-- Nota de seguridad que justifica el tiempo límite del token (Políticas de seguridad) -->
+            <p class="info-hint mt-2">
+                <span class="material-symbols-outlined">security</span>
+                Conexión Segura — Este código expira en 10 minutos por tu seguridad.
+            </p>
+
+        </div>
+    </main>
+
+    <!-- SweetAlert2 — alertas estilizadas para errores y confirmaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap JS — Necesario en caso de implementar tooltips, alertas o modales dinámicos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- auth.js maneja: El salto automático de foco entre casillas (.code-input) y la validación final del API -->
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+
+</html>

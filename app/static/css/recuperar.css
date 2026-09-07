@@ -1,0 +1,89 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   recuperar.css — Estilos para la recuperación de contraseña y flujo OTP
+   Usado directamente por: recuperar.html
+   Importa la base de login y variables globales
+   Estructura: Inputs de código de verificación + Bloques de asistencia/hints
+────────────────────────────────────────────────────────────────────────────── */
+
+@import url('login.css');
+@import url('variables.css');
+
+/* ── Código de verificación ─────────────────────────────────────────────────── */
+/* Casillas individuales para ingresar el código OTP (One-Time Password) */
+.code-input {
+    width: 100%;
+    max-width: 52px;
+    height: 64px;
+    text-align: center;
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--clr-surface-chh);
+    background: var(--clr-on-surface-var);
+    border: none;
+    border-radius: .5rem;
+    outline: none;
+}
+
+/* ── Bloque informativo (Info hint) ───────────────────────────────────────── */
+/* Pequeño texto de asistencia con ícono, usado para dar instrucciones sutiles */
+.info-hint {
+    color: var(--clr-on-surface-var);
+    font-size: .78rem;
+    opacity: .7;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: .35rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* Ajuste del ícono de Material Symbols dentro del bloque informativo */
+.info-hint .material-symbols-outlined {
+    font-size: 1.3rem;
+    color: var(--clr-primary);
+    flex-shrink: 0;
+    /* Evita que el ícono se comprima si el texto toma varias líneas */
+    margin-top: .05rem;
+}
+
+/* ── Contenedor de entrada con ícono ──────────────────────────────────────── */
+/* Contenedor relativo para inputs que llevan elementos interactivos dentro */
+.input-icon-wrapper {
+    position: relative;
+}
+
+/* Margen interno derecho para evitar que el texto se encime con el botón */
+.input-icon-wrapper .field-control {
+    padding-right: 3rem;
+}
+
+/* Botón interactivo (Ojo) para alternar la visibilidad de la nueva contraseña */
+.toggle-password {
+    position: absolute;
+    right: .75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--clr-on-surface-var);
+    display: flex;
+    align-items: center;
+    transition: color .2s;
+}
+
+.toggle-password:hover {
+    color: var(--clr-primary);
+}
+
+/* ── Texto de asistencia del campo ────────────────────────────────────────── */
+/* Nota aclaratoria debajo de un input (ej: "Mínimo 8 caracteres") */
+.field-hint {
+    font-size: .75rem;
+    color: var(--clr-on-surface-var);
+    margin-top: .4rem;
+    margin-left: .25rem;
+}

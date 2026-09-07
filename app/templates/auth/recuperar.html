@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recuperar Contraseña - Parquéate Cerca</title>
+
+    <!-- Bootstrap 5.3.8 — Framework CSS para layout y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Fuentes: Manrope para títulos, Inter para cuerpo -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Material Symbols — Iconos informativos al pie del formulario -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Estilos de recuperación: importa login.css como base -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperar.css') }}">
+</head>
+
+<body>
+
+    <!-- ── Contenedor centrado ──────────────────────────────────────────────────
+         Ocupa toda la altura de la pantalla (min-vh-100) y centra
+         el formulario tanto vertical como horizontalmente.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <main class="d-flex align-items-center justify-content-center min-vh-100 px-3 py-5">
+        <div class="login-wrapper">
+
+            <!-- Título y subtítulo -->
+            <div class="text-center mb-5">
+                <h1 class="brand-title">Recuperar contraseña</h1>
+                <p class="brand-sub">Te enviaremos un código de verificación a tu correo registrado.</p>
+            </div>
+
+            <!-- ── Card del formulario ──────────────────────────────────────────
+                 Fondo semitransparente con blur (glass morphism).
+                 Contiene el campo de correo y el botón de envío.
+            ─────────────────────────────────────────────────────────────────── -->
+            <div class="glass-card">
+
+                <!-- id="formRecuperar" es usado por auth.js para escuchar el submit -->
+                <form id="formRecuperar">
+
+                    <!-- Correo electrónico registrado -->
+                    <!-- id="email" es usado por auth.js para obtener el valor del campo -->
+                    <div class="mb-4">
+                        <label class="field-label" for="email">Correo electrónico</label>
+                        <input class="field-control" id="email" type="email" placeholder="usuario@dominio.com" />
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <!-- type="submit" para que auth.js capture el evento submit del formulario -->
+                    <div class="mt-4 pt-2">
+                        <button type="submit" class="btn-login">Enviar código de acceso</button>
+                    </div>
+
+                </form>
+
+                <!-- Enlace para volver al login -->
+                <div class="card-footer-divider">
+                    <a class="forgot-link" href="/login">Volver a iniciar sesión</a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- SweetAlert2 — alertas estilizadas para errores y confirmaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Bootstrap JS — necesario para componentes interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- auth.js maneja el envío del formulario y la llamada a /api/recuperar -->
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+</body>
+
+</html>

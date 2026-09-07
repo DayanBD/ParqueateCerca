@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parquéate Cerca</title>
+
+    <!-- Precarga de fuentes para mejorar rendimiento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fuentes: Manrope para títulos, Inter para cuerpo -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5.3.8 — Framework CSS para layout y componentes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons — Iconos vectoriales para las cards de servicios -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Estilos personalizados del index -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- ── Navbar ──────────────────────────────────────────────────────────────
+         Barra de navegación fija en la parte superior.
+         En móvil se colapsa con el botón hamburguesa.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <nav class="navbar navbar-expand-md fixed-top">
+        <div class="d-flex container-xl">
+
+            <!-- Logo / nombre de la marca -->
+            <a class="navbar-brand fw-black" href="/">ParquéateCerca</a>
+
+            <!-- Botón hamburguesa visible solo en móvil -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menú colapsable: links + botones -->
+            <div class="d-flex collapse navbar-collapse" id="menuPrincipal">
+
+                <!-- Links de navegación centrados -->
+                <ul class="navbar-nav mx-auto gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sobre-nosotros">Sobre nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#equipo">Nuestro Equipo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                </ul>
+
+                <!-- Botones de acceso a la derecha -->
+                <div class="d-flex align-items-center gap-1">
+                    <a href="/login" class="nav-link">Iniciar Sesión</a>
+                    <a href="/registro" class="btn btn-primary-custom">Registrarse</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ── Hero ────────────────────────────────────────────────────────────
+             Sección principal de bienvenida.
+             Columna izquierda: texto y botones de acción.
+             Columna derecha: imagen ilustrativa.
+        ─────────────────────────────────────────────────────────────────────── -->
+        <section class="hero d-flex align-items-center" id="inicio">
+            <div class="container-xl">
+                <div class="row align-items-center g-5">
+
+                    <!-- Texto principal -->
+                    <div class="col-12 col-lg-6">
+
+                        <!-- Badge de ubicación con punto animado -->
+                        <div class="hero-badge d-inline-flex align-items-center gap-2 mb-4">
+                            <span class="hero-badge-dot"></span>
+                            <span>Valledupar</span>
+                        </div>
+
+                        <!-- Título principal -->
+                        <h1 class="hero-title mb-4">
+                            Tu espacio <br>
+                            <span class="hero-gradient-text">Siempre a la mano</span>
+                        </h1>
+
+                        <!-- Descripción corta -->
+                        <p class="hero-desc mb-5">
+                            Descubre los parqueaderos disponibles en
+                            <strong>Valledupar</strong> a través de nuestro servicio.
+                        </p>
+
+                        <!-- Botones de acción -->
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="/registro" class="btn btn-primary-custom">Comenzar ahora</a>
+                            <a href="#" class="btn btn-outline-custom">Ver Tutorial</a>
+                        </div>
+                    </div>
+
+                    <!-- Imagen ilustrativa -->
+                    <div class="col-12 col-lg-6">
+                        <div class="hero-img-wrapper">
+                            <img src="{{ url_for('static', filename='img/hero.webp') }}"
+                                alt="Mapa de parqueo Valledupar" class="hero-img" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Sobre nosotros ───────────────────────────────────────────────────
+             Descripción del proyecto, misión y visión.
+        ─────────────────────────────────────────────────────────────────────── -->
+        <section class="about" id="sobre-nosotros">
+            <div class="container-xl">
+
+                <!-- Título de sección -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-12 text-center">
+                        <h2 class="about-title">Sobre nosotros</h2>
+                    </div>
+                </div>
+
+                <div class="row g-5 align-items-start">
+
+                    <!-- Columna izquierda: descripción del proyecto -->
+                    <div class="col-12 col-lg-6">
+                        <p class="about-text">
+                            En <strong>ParquéateCerca</strong> creamos soluciones digitales para mejorar la movilidad en
+                            Valledupar. El proyecto busca conectar a los conductores con los parqueaderos de la ciudad,
+                            a fin de reducir el tiempo de búsqueda y mejorar el flujo del tráfico en las zonas más
+                            concurridas.
+                        </p>
+                        <p class="about-text">
+                            La plataforma permite visualizar la localización y la disponibilidad de cupos en tiempo real
+                            de los parqueaderos, además de facilitar la administración de los negocios. Mientras el
+                            usuario encuentra dónde parquear rápidamente, el administrador cuenta con herramientas para
+                            gestionar las entradas y salidas de los vehículos, logrando un mejor control del espacio
+                            disponible.
+                        </p>
+                        <p class="about-text">
+                            Nuestro objetivo es lograr una Valledupar más organizada donde la tecnología simplifique el
+                            día a día.
+                        </p>
+                    </div>
+
+                    <!-- Columna derecha: misión y visión -->
+                    <div class="col-12 col-lg-6">
+                        <div class="about-card mb-4">
+                            <h4 class="about-card-title">Misión</h4>
+                            <p class="about-card-text">
+                                Brindar una herramienta tecnológica eficiente que simplifique el acceso a parqueaderos
+                                en Valledupar.
+                            </p>
+                        </div>
+                        <div class="about-card mb-4">
+                            <h4 class="about-card-title">Visión</h4>
+                            <p class="about-card-text">
+                                Ser la plataforma líder en gestión inteligente de parqueaderos en Colombia.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Servicios ────────────────────────────────────────────────────────
+             Cards con las funcionalidades principales de la plataforma.
+             Distribuidas en 3 filas con layouts diferentes.
+        ─────────────────────────────────────────────────────────────────────── -->
+        <section class="services" id="servicios">
+            <div class="container-xl">
+
+                <!-- Título de sección -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-12 text-center">
+                        <h2 class="services-title">Servicios</h2>
+                        <p class="services-subtitle">
+                            Diseñado para conductores y administradores que valoran su tiempo.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Fila 1: 3 cards iguales -->
+                <div class="row g-4 mb-4">
+
+                    <!-- Perfiles y roles -->
+                    <div class="col-12 col-md-4">
+                        <div class="service-card h-100">
+                            <div class="service-card-icon mb-3">
+                                <i class="bi bi-person-badge-fill"></i>
+                            </div>
+                            <h3 class="service-card-title">Perfiles y Roles</h3>
+                            <p class="service-card-text">
+                                Regístrate como <strong>conductor</strong> o <strong>administrador</strong>. Cada perfil
+                                tiene funciones adaptadas a su rol dentro de la plataforma.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Registro de vehículos -->
+                    <div class="col-12 col-md-4">
+                        <div class="service-card h-100">
+                            <div class="service-card-icon mb-3">
+                                <i class="bi bi-car-front-fill"></i>
+                            </div>
+                            <h3 class="service-card-title">Registro de Vehículos</h3>
+                            <p class="service-card-text">
+                                Registra hasta 5 vehículos por usuario. Compatible con
+                                <strong>automóvil</strong>, <strong>motocicleta</strong>, <strong>bicicleta</strong>,
+                                <strong>bus</strong> y <strong>camión</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Cupos disponibles -->
+                    <div class="col-12 col-md-4">
+                        <div class="service-card h-100">
+                            <div class="service-card-icon mb-3">
+                                <i class="bi bi-p-square-fill"></i>
+                            </div>
+                            <h3 class="service-card-title">Cupos Disponibles</h3>
+                            <p class="service-card-text">
+                                El mapa muestra los cupos disponibles por cada tipo de vehículo
+                                que el parqueadero tenga habilitado, sin necesidad de seleccionar
+                                un vehículo.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Fila 2: card grande (mapa) + card mediana (QR) -->
+                <div class="row g-4 mb-4">
+
+                    <!-- Mapa en tiempo real -->
+                    <div class="col-12 col-lg-7">
+                        <div class="service-card h-100">
+                            <div class="service-card-icon mb-3">
+                                <i class="bi bi-map-fill"></i>
+                            </div>
+                            <h3 class="service-card-title">Mapa en Tiempo Real</h3>
+                            <p class="service-card-text">
+                                Visualiza la ubicación, disponibilidad de cupos e indicaciones
+                                para llegar a los parqueaderos activos en Valledupar, actualizados
+                                en tiempo real.
+                            </p>
+                            <div class="service-info-item mt-3">
+                                <i class="bi bi-signpost-split"></i>
+                                <span>Indicaciones de ruta hasta el parqueadero</span>
+                            </div>
+                            <div class="service-info-item mt-2">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Marcado del parqueadero dentro del mapa</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Código de Referencia -->
+                    <div class="col-12 col-lg-5">
+                        <div class="service-card h-100">
+                            <div class="service-card-icon mb-3">
+                                <i class="bi bi-ticket-perforated-fill"></i>
+                            </div>
+                            <h3 class="service-card-title">Código de Referencia</h3>
+                            <p class="service-card-text">
+                                Cada ingreso genera un código de referencia único para el vehículo.
+                                En la salida, el administrador confirma ese código para actualizar
+                                la disponibilidad automáticamente.
+                            </p>
+                            <div class="service-info-item mt-3">
+                                <i class="bi bi-door-open"></i>
+                                <span>Entrada → Genera código de referencia</span>
+                            </div>
+                            <div class="service-info-item mt-2">
+                                <i class="bi bi-door-closed"></i>
+                                <span>Salida → Confirmación con código de referencia</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Fila 3: 2 cards iguales -->
+                <div class="row g-4">
+
+                    <!-- Calificaciones -->
+                    <div class="col-12 col-md-6">
+                        <div class="service-card h-100">
+                            <div class="service-card-icon mb-3">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <h3 class="service-card-title">Calificación de Parqueaderos</h3>
+                            <p class="service-card-text">
+                                Luego de usar un parqueadero puedes calificarlo de 1 a 3
+                                estrellas y dejar una reseña opcional.
+                            </p>
+                            <div class="service-stars mt-3">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <span class="service-stars-label">Insatisfecho → Muy satisfecho</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notificaciones de cierre -->
+                    <div class="col-12 col-md-6">
+                        <div class="service-card h-100">
+                            <div class="service-card-icon mb-3">
+                                <i class="bi bi-building-fill"></i>
+                            </div>
+                            <h3 class="service-card-title">Perfil del Parqueadero</h3>
+                            <p class="service-card-text">
+                                Consulta la ficha completa de cada parqueadero: sus imágenes,
+                                cupos disponibles por tipo de vehículo, horarios del parqueadero
+                                y de sus servicios, y las reseñas de otros conductores.
+                            </p>
+                            <div class="service-info-item mt-3">
+                                <i class="bi bi-images"></i>
+                                <span>Imágenes y cupos disponibles</span>
+                            </div>
+                            <div class="service-info-item mt-2">
+                                <i class="bi bi-clock-history"></i>
+                                <span>Horarios y reseñas de conductores</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Equipo ────────────────────────────────────────────────────────────
+             Carrusel con fotos y nombres de los integrantes del equipo.
+             Muestra 2 personas por slide.
+        ─────────────────────────────────────────────────────────────────────── -->
+        <section class="team" id="equipo">
+            <div class="container-xl">
+
+                <!-- Título de sección -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-12 text-center">
+                        <h2 class="team-title">Nuestro Equipo</h2>
+                    </div>
+                </div>
+
+                <!-- Carrusel Bootstrap con autoplay -->
+                <div id="equipoCarrusel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+
+                        <!-- Slide 1: Ángel y Dayan -->
+                        <div class="carousel-item active">
+                            <div class="d-flex justify-content-center gap-4">
+                                <div class="team-card">
+                                    <div class="team-img-wrapper">
+                                        <img src="{{ url_for('static', filename='img/angel.webp') }}"
+                                            alt="Ángel David Arias Mendoza" class="team-img" />
+                                    </div>
+                                    <h3 class="team-name">Ángel David Arias Mendoza</h3>
+                                </div>
+                                <div class="team-card">
+                                    <div class="team-img-wrapper">
+                                        <img src="{{ url_for('static', filename='img/dayan.webp') }}"
+                                            alt="Dayan Martínez Rodríguez" class="team-img" />
+                                    </div>
+                                    <h3 class="team-name">Dayan Martínez Rodríguez</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Juan y Karlo -->
+                        <div class="carousel-item">
+                            <div class="d-flex justify-content-center gap-4">
+                                <div class="team-card">
+                                    <div class="team-img-wrapper">
+                                        <img src="{{ url_for('static', filename='img/juan.webp') }}"
+                                            alt="Juan David Velasquez" class="team-img" />
+                                    </div>
+                                    <h3 class="team-name">Juan David Velasquez</h3>
+                                </div>
+                                <div class="team-card">
+                                    <div class="team-img-wrapper">
+                                        <img src="{{ url_for('static', filename='img/karlo.webp') }}"
+                                            alt="Karlo Maicol Molina" class="team-img" />
+                                    </div>
+                                    <h3 class="team-name">Karlo Maicol Molina</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Indicadores de slide -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#equipoCarrusel" data-bs-slide-to="0"
+                            class="active"></button>
+                        <button type="button" data-bs-target="#equipoCarrusel" data-bs-slide-to="1"></button>
+                    </div>
+
+                    <!-- Botones anterior/siguiente -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#equipoCarrusel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#equipoCarrusel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ── Footer ───────────────────────────────────────────────────────────────
+         Sección de contacto con formulario, links de navegación y copyright.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <footer class="site-footer" id="contacto">
+        <div class="container-xl">
+            <div class="row g-5 align-items-start">
+
+                <!-- Marca y tagline -->
+                <div class="col-12 col-lg-4">
+                    <a class="footer-brand fw-black" href="/">ParquéateCerca</a>
+                    <p class="footer-tagline mt-3">
+                        Optimizando la movilidad urbana en Valledupar a través de tecnología y datos en tiempo real.
+                    </p>
+                </div>
+
+                <!-- Links de navegación rápida -->
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <h6 class="footer-heading">Navegación</h6>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#equipo">Equipo</a></li>
+                    </ul>
+                </div>
+
+                <!-- Formulario de contacto -->
+                <div class="col-12 col-sm-6 col-lg-6">
+                    <h6 class="footer-heading">Contáctanos</h6>
+                    <p class="footer-contact-desc">¿Tienes alguna pregunta? Escríbenos y te respondemos pronto.</p>
+                    <div class="footer-form">
+                        <div class="footer-form-row">
+                            <input type="text" class="footer-input" placeholder="Tu nombre">
+                            <input type="email" class="footer-input" placeholder="Correo electrónico">
+                        </div>
+                        <input type="tel" class="footer-input" placeholder="Teléfono (opcional)">
+                        <textarea class="footer-input footer-textarea" placeholder="Tu mensaje..." rows="3"></textarea>
+                        <button class="btn btn-primary-custom footer-btn">Enviar mensaje</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <span>© 2026 Parquéate Cerca. Todos los derechos reservados.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS — necesario para navbar colapsable y carrusel -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- JS del index: navegación activa y scroll -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>

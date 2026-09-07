@@ -1,0 +1,207 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   vehiculos.css — Estilos exclusivos del módulo de gestión de vehículos
+   El layout base (navbar, sidebar, main-content) lo provee perfil.css
+────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Botón agregar vehículo ───────────────────────────────────────────────── */
+.btn-vehiculo-agregar {
+    background-color: var(--clr-primary);
+    color: #00101b;
+    font-family: var(--ff-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 8px;
+    padding: 0.65rem 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    white-space: nowrap;
+}
+
+.btn-vehiculo-agregar:hover {
+    background-color: var(--clr-primary-var, #7de87a);
+    transform: translateY(-1px);
+}
+
+/* ── Tarjeta de vehículo ──────────────────────────────────────────────────── */
+.vehiculo-card {
+    background-color: #001f2e;
+    border: 2px solid var(--clr-outline-var);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.vehiculo-card:hover {
+    border-color: var(--clr-primary);
+    transform: translateY(-2px);
+}
+
+/* Ícono del tipo de vehículo */
+.vehiculo-icono {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background-color: rgba(145, 247, 142, 0.08);
+    color: var(--clr-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vehiculo-icono .material-symbols-outlined {
+    font-size: 1.75rem;
+}
+
+/* Bloque de texto central */
+.vehiculo-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.vehiculo-placa {
+    font-family: var(--ff-headline);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--clr-on-surface);
+    letter-spacing: 0.05em;
+}
+
+.vehiculo-tipo {
+    font-size: 0.82rem;
+    color: var(--clr-on-surface-var);
+    margin-top: 0.15rem;
+}
+
+/* Badge de estado */
+.vehiculo-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
+    border-radius: 50rem;
+    white-space: nowrap;
+}
+
+.vehiculo-badge.activo {
+    background-color: rgba(145, 247, 142, 0.1);
+    color: var(--clr-primary);
+}
+
+.vehiculo-badge.inactivo {
+    background-color: rgba(140, 175, 203, 0.1);
+    color: var(--clr-on-surface-var);
+}
+
+/* Botones de acción */
+.vehiculo-acciones {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.btn-vehiculo-accion {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--clr-outline-var);
+    background-color: transparent;
+    color: var(--clr-on-surface-var);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-vehiculo-accion .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+.btn-vehiculo-accion.editar:hover {
+    color: var(--clr-primary);
+    border-color: var(--clr-primary);
+    background-color: rgba(145, 247, 142, 0.08);
+}
+
+.btn-vehiculo-accion.eliminar:hover {
+    color: #ff5252;
+    border-color: #ff5252;
+    background-color: rgba(255, 82, 82, 0.1);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 576px) {
+    .vehiculo-card {
+        flex-wrap: wrap;
+    }
+
+    .vehiculo-acciones {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* ── Select personalizado de tipo de vehículo ─────────────────────────────── */
+.custom-select {
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+.custom-select__selected {
+    background: var(--clr-surface-bright);
+    color: var(--clr-on-surface);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1rem;
+    font-family: var(--ff-body);
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: box-shadow 0.2s;
+}
+
+.custom-select.open .custom-select__selected {
+    box-shadow: 0 0 0 2px var(--clr-primary);
+}
+
+.custom-select__options {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--clr-surface-bright);
+    border-radius: 0.5rem;
+    border: 1px solid var(--clr-outline-var);
+    z-index: 3000;
+    overflow: hidden;
+}
+
+.custom-select.open .custom-select__options {
+    display: block;
+}
+
+.custom-select__option {
+    padding: 0.75rem 1rem;
+    font-family: var(--ff-body);
+    font-size: 0.9rem;
+    color: var(--clr-on-surface-var);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.custom-select__option:hover {
+    background-color: rgba(145, 247, 142, 0.08);
+    color: var(--clr-on-surface);
+}
+
+.custom-select__option.selected {
+    color: var(--clr-primary);
+    background-color: rgba(145, 247, 142, 0.05);
+}

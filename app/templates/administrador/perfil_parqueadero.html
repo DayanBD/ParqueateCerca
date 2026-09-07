@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Perfil - Parquéate Cerca</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil_parqueadero.css') }}">
+</head>
+
+<body>
+
+    <header class="navbar-custom">
+        <div class="d-flex align-items-center flex-grow-1 gap-3">
+            <button class="nav-icon-btn" id="toggleSidebar" title="Menú de navegación">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <a href="/" class="navbar-brand-custom">Parquéate Cerca</a>
+        </div>
+
+        <button type="button" class="nav-chip-btn" id="btnVolverConductor" title="Volver a modo conductor">
+            <span class="material-symbols-outlined">directions_car</span>
+            <span>Modo Conductor</span>
+        </button>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <img src="" alt="Avatar" class="sidebar-avatar" id="sidebarAvatar" />
+            <div class="profile-info">
+                <div class="profile-name" id="sidebarName">Cargando...</div>
+                <div class="profile-role">Administrador</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav-container">
+            <a href="/administrador/movimientos" class="nav-item">
+                <span class="material-symbols-outlined">monitoring</span>
+                <span class="nav-text">Movimientos e Historial</span>
+            </a>
+            <a href="/administrador/control-acceso" class="nav-item">
+                <span class="material-symbols-outlined">toll</span>
+                <span class="nav-text">Ingresos y Salidas</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/administrador/perfil" class="nav-item active">
+                <span class="material-symbols-outlined">storefront</span>
+                <span class="nav-text">Mi Perfil</span>
+            </a>
+            <a href="#" class="nav-item nav-logout" id="btnLogout">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="nav-text">Cerrar Sesión</span>
+            </a>
+        </div>
+
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <div class="container-fluid mx-auto" style="max-width: 900px;">
+
+            <div class="mb-4">
+                <h4 class="fw-semibold mb-1" style="font-family: var(--ff-headline)">
+                    <span class="material-symbols-outlined align-middle me-2">storefront</span>Perfil del Parqueadero
+                </h4>
+                <p style="color: var(--clr-on-surface-var)">Administra la información pública y operativa de tu
+                    parqueadero.</p>
+            </div>
+
+            <!-- ── Pestañas ─────────────────────────────────────────────── -->
+            <ul class="nav nav-tabs nav-tabs-custom mb-4" id="tabsPerfil" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-datos-btn" data-bs-toggle="tab" data-bs-target="#tab-datos"
+                        type="button" role="tab">
+                        <span class="material-symbols-outlined align-middle me-1">badge</span>Datos generales
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-cupos-btn" data-bs-toggle="tab" data-bs-target="#tab-cupos"
+                        type="button" role="tab">
+                        <span class="material-symbols-outlined align-middle me-1">local_parking</span>Cupos
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-horarios-btn" data-bs-toggle="tab" data-bs-target="#tab-horarios"
+                        type="button" role="tab">
+                        <span class="material-symbols-outlined align-middle me-1">schedule</span>Horarios y servicios
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-fotos-btn" data-bs-toggle="tab" data-bs-target="#tab-fotos"
+                        type="button" role="tab">
+                        <span class="material-symbols-outlined align-middle me-1">photo_library</span>Fotos
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="tabsPerfilContent">
+
+                <!-- ── Tab: Datos generales ─────────────────────────────── -->
+                <div class="tab-pane fade show active" id="tab-datos" role="tabpanel">
+                    <form id="formDatosGenerales" class="custom-card p-4">
+
+                        <div class="row g-4 mb-2">
+                            <div class="col-md-6">
+                                <label class="field-label" for="inputNombre">Nombre del parqueadero</label>
+                                <input type="text" id="inputNombre" class="field-control" maxlength="150" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="field-label" for="inputTelefono">Teléfono</label>
+                                <input type="text" id="inputTelefono" class="field-control" maxlength="10" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mb-2">
+                            <div class="col-md-6">
+                                <label class="field-label" for="inputDireccion">Dirección</label>
+                                <input type="text" id="inputDireccion" class="field-control" maxlength="255" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="field-label" for="inputCorreo">Correo de contacto</label>
+                                <input type="email" id="inputCorreo" class="field-control" maxlength="150" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="field-label" for="inputDescripcion">Descripción</label>
+                            <textarea id="inputDescripcion" class="field-control" rows="3" maxlength="500"
+                                placeholder="Cuéntale a los conductores qué hace especial a tu parqueadero..."></textarea>
+                            <p class="field-hint text-end mb-0"><span id="contadorDescripcion">0</span>/500</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="field-label">Ubicación</label>
+                            <p class="field-hint">Arrastra el marcador si necesitas corregir la posición exacta.</p>
+                            <button type="button" class="btn-ubicacion-actual mb-2" id="btnUbicacionActual">
+                                <span class="material-symbols-outlined">my_location</span>Usar mi ubicación actual
+                            </button>
+                            <div id="mapaPerfil"></div>
+                            <input type="hidden" id="inputLatitud" />
+                            <input type="hidden" id="inputLongitud" />
+                        </div>
+
+                        <button type="submit" class="btn-guardar-tab" id="btnGuardarDatos">
+                            <span class="material-symbols-outlined me-2">save</span>Guardar datos generales
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ── Tab: Cupos ────────────────────────────────────────── -->
+                <div class="tab-pane fade" id="tab-cupos" role="tabpanel">
+                    <form id="formCupos" class="custom-card p-4">
+
+                        <div class="resumen-cupos mb-4">
+                            <div>
+                                <span class="field-label d-block">Capacidad total</span>
+                                <input type="number" id="inputCapacidadTotal" class="resumen-valor resumen-valor-input"
+                                    min="0">
+                            </div>
+                            <div>
+                                <span class="field-label d-block">Asignado</span>
+                                <span class="resumen-valor" id="resumenAsignado">0</span>
+                            </div>
+                            <div>
+                                <span class="field-label d-block">Disponible para asignar</span>
+                                <span class="resumen-valor" id="resumenRestante">0</span>
+                            </div>
+                        </div>
+
+                        <div id="listaCupos"><!-- Filas de cupo generadas por JS --></div>
+
+                        <button type="submit" class="btn-guardar-tab mt-3" id="btnGuardarCupos">
+                            <span class="material-symbols-outlined me-2">save</span>Guardar cupos
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ── Tab: Horarios y servicios ─────────────────────────── -->
+                <div class="tab-pane fade" id="tab-horarios" role="tabpanel">
+                    <form id="formHorariosServicios">
+
+                        <div class="custom-card p-4 mb-4">
+                            <label class="field-label d-block mb-3">Horario general del parqueadero</label>
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <label class="field-label">Día inicial</label>
+                                    <select id="selectDiaInicial" class="field-control"></select>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <label class="field-label">Día final</label>
+                                    <select id="selectDiaFinal" class="field-control"></select>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <label class="field-label">Hora apertura</label>
+                                    <input type="time" id="inputHoraInicial" class="field-control">
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <label class="field-label">Hora cierre</label>
+                                    <input type="time" id="inputHoraFinal" class="field-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="custom-card p-4">
+                            <label class="field-label d-block mb-3">Servicios adicionales</label>
+                            <div id="listaServicios"><!-- Checkboxes generados por JS --></div>
+                        </div>
+
+                        <button type="submit" class="btn-guardar-tab mt-3" id="btnGuardarHorarios">
+                            <span class="material-symbols-outlined me-2">save</span>Guardar horarios y servicios
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ── Tab: Fotos ────────────────────────────────────────── -->
+                <div class="tab-pane fade" id="tab-fotos" role="tabpanel">
+                    <div class="custom-card p-4">
+                        <label class="field-label d-block mb-3">Fotos del parqueadero (máximo 6)</label>
+
+                        <div id="galeriaFotos" class="galeria-fotos mb-3"><!-- Miniaturas generadas por JS --></div>
+
+                        <label for="inputFoto" class="placeholder-box-perfil" id="cargaFotoBox">
+                            <span class="material-symbols-outlined">add_photo_alternate</span>
+                            <span>Agregar foto</span>
+                        </label>
+                        <input type="file" id="inputFoto" accept="image/png, image/jpeg" class="d-none">
+                        <p class="field-hint mt-2">Formatos permitidos: JPG o PNG.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/perfil_parqueadero.js') }}"></script>
+
+</body>
+
+</html>
