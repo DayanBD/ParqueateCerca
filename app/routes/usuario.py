@@ -1143,7 +1143,7 @@ def api_registrar_parqueadero():
         return jsonify({'error': 'No hay sesión activa'}), 401
 
     datos = request.get_json()
-    nit          = datos.get('nit', '').strip() or None
+    nit          = (datos.get('nit') or '').strip() or None
     nombre       = datos.get('nombre', '').strip()
     direccion    = datos.get('direccion', '').strip()
     correo       = datos.get('correo', '').strip()
