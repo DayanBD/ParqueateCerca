@@ -4,6 +4,7 @@ Aquí se inicializan las extensiones y se registran los blueprints.
 """
 from flask import Flask
 from flask_mail import Mail
+from werkzeug.middleware.proxy_fix import ProxyFix
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from config import Config
@@ -51,6 +52,11 @@ def create_app():
     
     # Carga la configuración desde config.py
     app.config.from_object(Config)
+
+    # Render (y otros hosts) terminan HTTPS en el proxy. Sin esto
+    # Flask cree que la petición es HTTP y las cookies de sesión
+    # pueden no enviarse bien en el flujo de recuperación.
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
     # Vincula Flask-Mail con la app ya configurada
     mail.init_app(app)

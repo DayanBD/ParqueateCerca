@@ -10,6 +10,12 @@ class Config:
     # Clave secreta para cifrar las sesiones de usuario
     # En producción debe ser cadena larga y aleatoria
     SECRET_KEY = os.environ.get('SECRET_KEY', 'parqueate_dev_key')
+
+    # Cookies de sesión: en Render el HTTPS termina en el proxy.
+    # Secure evita que el navegador suelte la cookie en HTTP.
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SECURE = os.environ.get('RENDER') == 'true'
     
     # —— Base de datos (Supabase / PostgreSQL sin SQLAlchemy) ———————————————————————————
     # URL de conexión directa para usar con psycopg2 o el cliente de Supabase
