@@ -263,13 +263,20 @@ if (formCodigo) {
         if (respuesta.ok) {
             window.location.href = '/nueva-contrasena';
         } else {
-            mostrarError('Código incorrecto', datos.error);
+            // El título ahora refleja el motivo real (sesión expirada,
+            // usuario no encontrado, error de BD, etc.) en vez de decir
+            // siempre "Código incorrecto" sin importar la causa real.
+            const titulo = respuesta.status === 400 ? 'Código incorrecto' :
+                            respuesta.status === 404 ? 'Usuario no encontrado' :
+                            'No se pudo verificar el código';
+            mostrarError(titulo, datos.error);
             // Limpia las casillas y regresa el foco a la primera para reintentar
             inputs.forEach(i => { i.value = ''; });
             inputs[0].focus();
         }
     });
 }
+
 
 // ── Reenviar código OTP (codigo.html) ──────────────────────────────────────────
 const btnReenviar = document.getElementById('btn-reenviar');
@@ -318,6 +325,7 @@ if (btnReenviar) {
         }
     });
 }
+
 
 // ── Nueva contraseña ─────────────────────────────────────────────────────────────
 const formNuevaContrasena = document.getElementById('form-recuperar');

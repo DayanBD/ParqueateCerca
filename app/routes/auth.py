@@ -6,7 +6,6 @@ y verificación de código OTP.
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, current_app
 from werkzeug.security import generate_password_hash, check_password_hash # cifrado de contraseñas
 from app.correo import enviar_correo
-from datetime import datetime, timedelta # manejo de fechas y tiempo
 from app import get_db          # función conexión a PostgreSQL (Supabase)
 import psycopg2                 # manejador de errores de base de datos
 import random                   # generación del código OTP
@@ -37,6 +36,7 @@ def validar_contrasena(contrasena):
     if not re.search(r'[^A-Za-z0-9]', contrasena):
         return 'La contraseña debe incluir al menos un carácter especial'
     return None
+
 
 def _generar_codigo_otp():
     """
@@ -89,6 +89,7 @@ def _emitir_otp(cursor, id_usuario):
     """, (id_usuario, codigo))
 
     return codigo
+
 
 MAPA_PERFILES = {
     'driver': 'Conductor',
@@ -418,17 +419,9 @@ def api_recuperar():
             db.close()
             return jsonify({'error': 'El correo no está registrado'}), 404
 
-        # Genera un número aleatorio de 6 dígitos como código OTP
-        codigo = str(random.randint(100000, 999999))
-
-        # Calcula la fecha de expiración: 10 minutos desde ahora
-        fecha_expira = datetime.now() + timedelta(minutes=10)
-
-        # Guarda el OTP en la BD para verificarlo después
-        cursor.execute("""
-            INSERT INTO otp (id_usuario, codigo, fecha_expira)
-            VALUES (%s, %s, %s)
-        """, (usuario['id_usuario'], codigo, fecha_expira))
+        # Genera el código OTP e invalida cualquier código anterior
+        # sin usar de este usuario
+        codigo = _emitir_otp(cursor, usuario['id_usuario'])
 
         db.commit()
         cursor.close()
@@ -452,7 +445,60 @@ def api_recuperar():
         return jsonify({'error': 'Error de base de datos'}), 500
     except Exception as e:
         return jsonify({'error': 'Error al enviar el correo'}), 500
-    
+
+
+@auth_bp.route('/api/reenviar-codigo', methods=['POST'])
+def api_reenviar_codigo():
+    """
+    Reenvía un nuevo código OTP al correo guardado en sesión desde
+    /api/recuperar. No vuelve a pedir el correo, por lo que el botón
+    "Reenviar código" de la pantalla de verificación puede llamar
+    esta ruta sin más datos que la sesión activa.
+
+    Retorna:
+        200: Código reenviado exitosamente
+        400: No hay una recuperación en curso (sesión expirada)
+        404: El correo ya no está registrado o el usuario está inactivo
+        500: Error de base de datos o al enviar el correo
+    """
+    correo = session.get('correo_recuperacion')
+    if not correo:
+        return jsonify({'error': 'Sesión expirada, vuelve a solicitar el código'}), 400
+
+    try:
+        db = get_db(current_app)
+        cursor = db.cursor()
+
+        cursor.execute("SELECT id_usuario FROM usuario WHERE correo = %s AND estado = 'activo'", (correo,))
+        usuario = cursor.fetchone()
+
+        if not usuario:
+            cursor.close()
+            db.close()
+            return jsonify({'error': 'El correo ya no está registrado'}), 404
+
+        codigo = _emitir_otp(cursor, usuario['id_usuario'])
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        enviado = enviar_correo(
+            correo,
+            'Código de recuperación - Parquéate Cerca',
+            f'Tu código de verificación es: {codigo}\nExpira en 10 minutos.'
+        )
+        if not enviado:
+            return jsonify({'error': 'Error al enviar el correo'}), 500
+
+        return jsonify({'mensaje': 'Código reenviado exitosamente'}), 200
+
+    except psycopg2.Error as e:
+        return jsonify({'error': 'Error de base de datos'}), 500
+    except Exception as e:
+        return jsonify({'error': 'Error al enviar el correo'}), 500
+
+
 @auth_bp.route('/api/verificar-codigo', methods=['POST'])
 def api_verificar_codigo():
     """
@@ -469,7 +515,10 @@ def api_verificar_codigo():
         500: Error de base de datos
     """
     datos = request.get_json()
-    codigo = datos.get('codigo')
+    # Limpia espacios y cualquier carácter no numérico que pueda colarse
+    # por autocompletado del navegador o del teclado (p. ej. el OTP
+    # sugerido por el sistema operativo desde el SMS o el correo).
+    codigo = re.sub(r'\D', '', datos.get('codigo') or '')
 
     if not codigo:
         return jsonify({'error': 'El código es obligatorio'}), 400
@@ -508,6 +557,23 @@ def api_verificar_codigo():
         otp = cursor.fetchone()
 
         if not otp:
+            # Diagnóstico: busca el registro más reciente con ese
+            # código para saber SI existe y por qué no calificó
+            # (ya usado / expirado), en vez de adivinar. Revisa esto
+            # en los logs del servidor cuando el código falle.
+            cursor.execute("""
+                SELECT id_otp, codigo, usado, fecha_expira,
+                       (fecha_expira > NOW()) AS vigente, NOW() AS ahora
+                FROM otp
+                WHERE id_usuario = %s AND codigo = %s
+                ORDER BY fecha_creacion DESC
+                LIMIT 1
+            """, (usuario['id_usuario'], codigo))
+            diagnostico = cursor.fetchone()
+            current_app.logger.warning(
+                f"[verificar-codigo] correo={correo} id_usuario={usuario['id_usuario']} "
+                f"codigo_recibido={codigo!r} diagnostico={dict(diagnostico) if diagnostico else None}"
+            )
             cursor.close()
             db.close()
             return jsonify({'error': 'Código inválido o expirado'}), 400
