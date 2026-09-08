@@ -87,3 +87,12 @@
     margin-top: .4rem;
     margin-left: .25rem;
 }
+
+
+/* ── Estado deshabilitado del enlace "Reenviar código" ───────────────────── */
+/* Se aplica mientras corre el conteo regresivo tras un reenvío exitoso */
+#btn-reenviar.disabled {
+    pointer-events: none;
+    opacity: .5;
+    cursor: default;
+}

@@ -38,6 +38,58 @@ def validar_contrasena(contrasena):
         return 'La contraseña debe incluir al menos un carácter especial'
     return None
 
+def _generar_codigo_otp():
+    """
+    Genera un código OTP numérico de 6 dígitos, permitiendo ceros a
+    la izquierda (0 a 999999) y rellenando con zfill para que
+    siempre tenga 6 caracteres, igual que las 6 casillas del
+    formulario en codigo.html.
+    """
+    return str(random.randint(0, 999999)).zfill(6)
+
+
+def _emitir_otp(cursor, id_usuario):
+    """
+    Genera un nuevo código OTP para un usuario y lo guarda en la
+    tabla otp, lista para usarse tanto en /api/recuperar como en
+    /api/reenviar-codigo.
+
+    Invalida primero cualquier código anterior sin usar del mismo
+    usuario, para que nunca queden dos códigos "vigentes" a la vez
+    (evita que el usuario se confunda leyendo un correo viejo).
+
+    La fecha de expiración se calcula con NOW() de Postgres, no con
+    datetime.now() de Python: si se calculara en Python, el
+    vencimiento dependería de la zona horaria del reloj del
+    servidor donde corra Flask. En el equipo local esa hora
+    coincide con Bogotá, pero en Render el contenedor corre en UTC,
+    así que el código quedaba comparado contra un NOW() de la BD
+    calculado en otra referencia horaria y el OTP podía darse por
+    inválido o expirado aunque el dígito ingresado fuera correcto.
+    Calculando fecha_expira directamente en la consulta SQL, todo
+    queda en la misma línea de tiempo del propio Postgres.
+
+    Recibe:
+        - cursor: cursor abierto de la conexión a la BD
+        - id_usuario: id del usuario para el que se genera el código
+
+    Retorna:
+        str: el código OTP generado, listo para enviarse por correo
+    """
+    codigo = _generar_codigo_otp()
+
+    cursor.execute("""
+        UPDATE otp SET usado = 1
+        WHERE id_usuario = %s AND usado = 0
+    """, (id_usuario,))
+
+    cursor.execute("""
+        INSERT INTO otp (id_usuario, codigo, fecha_expira)
+        VALUES (%s, %s, NOW() + INTERVAL '10 minutes')
+    """, (id_usuario, codigo))
+
+    return codigo
+
 MAPA_PERFILES = {
     'driver': 'Conductor',
     'owner': 'Administrador'

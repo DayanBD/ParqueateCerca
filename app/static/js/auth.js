@@ -264,10 +264,60 @@ if (formCodigo) {
             window.location.href = '/nueva-contrasena';
         } else {
             mostrarError('Código incorrecto', datos.error);
+            // Limpia las casillas y regresa el foco a la primera para reintentar
+            inputs.forEach(i => { i.value = ''; });
+            inputs[0].focus();
         }
     });
 }
 
+// ── Reenviar código OTP (codigo.html) ──────────────────────────────────────────
+const btnReenviar = document.getElementById('btn-reenviar');
+if (btnReenviar) {
+    let enviando = false;
+    let intervaloConteo = null;
+
+    function iniciarConteoReenvio(segundos) {
+        btnReenviar.classList.add('disabled');
+        btnReenviar.style.pointerEvents = 'none';
+        const textoOriginal = 'Reenviar código';
+        let restante = segundos;
+        btnReenviar.textContent = `Reenviar código (${restante}s)`;
+        intervaloConteo = setInterval(() => {
+            restante--;
+            if (restante <= 0) {
+                clearInterval(intervaloConteo);
+                btnReenviar.textContent = textoOriginal;
+                btnReenviar.classList.remove('disabled');
+                btnReenviar.style.pointerEvents = '';
+            } else {
+                btnReenviar.textContent = `Reenviar código (${restante}s)`;
+            }
+        }, 1000);
+    }
+
+    btnReenviar.addEventListener('click', async function (e) {
+        e.preventDefault();
+
+        if (enviando || btnReenviar.classList.contains('disabled')) return;
+        enviando = true;
+
+        const respuesta = await fetch('/api/reenviar-codigo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const datos = await respuesta.json();
+        enviando = false;
+
+        if (respuesta.ok) {
+            await mostrarExito('Código reenviado', 'Revisa tu correo, te acabamos de enviar un nuevo código.');
+            iniciarConteoReenvio(30);
+        } else {
+            mostrarError('No se pudo reenviar el código', datos.error);
+        }
+    });
+}
 
 // ── Nueva contraseña ─────────────────────────────────────────────────────────────
 const formNuevaContrasena = document.getElementById('form-recuperar');
